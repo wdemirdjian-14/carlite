@@ -1,0 +1,6 @@
+id,vehicleId,name,icon,description,selectionType,order,required,createdAt,updatedAt
+cmruiqfax0002px08f91y1zjg,cmruiim6z0000px08qz5tj5xl,Couleur,Palette,"",radio,0,t,2026-07-21 10:36:24.441,2026-07-21 10:36:24.441
+cmrulz4pz000ao3088byfwwms,cmruiim6z0000px08qz5tj5xl,Sellerie,Sofa,La couleur des banquettes,radio,1,t,2026-07-21 12:07:09.479,2026-07-21 12:07:09.479
+cmrumjnv90010o308k1kbypzs,cmruiim6z0000px08qz5tj5xl,Pare-brise,"","",radio,2,t,2026-07-21 12:23:07.413,2026-07-21 12:26:45.351
+cmrunp0hx0001p008sm8akwnq,cmruiim6z0000px08qz5tj5xl,Accessoire Arrière,"","Benne, banquette réversible, porte sac de golf",radio,3,t,2026-07-21 12:55:16.678,2026-07-21 12:55:40.7
+cmrum1ivc000io308p98scbz3,cmruiim6z0000px08qz5tj5xl,Options,"",Choisissez vos options en fonction de votre besoin.,checkbox,4,f,2026-07-21 12:09:01.128,2026-07-21 12:56:04.385

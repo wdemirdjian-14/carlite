@@ -1,0 +1,25 @@
+export const dynamic = 'force-dynamic';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import bcrypt from 'bcryptjs';
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { email, password, name } = body ?? {};
+    if (!email || !password) {
+      return NextResponse.json({ error: 'Email et mot de passe requis' }, { status: 400 });
+    }
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return NextResponse.json({ error: 'Un compte existe déjà avec cet email' }, { status: 400 });
+    }
+    const hashed = await bcrypt.hash(password, 12);
+    const user = await prisma.user.create({
+      data: { email, password: hashed, name: name ?? '' },
+    });
+    return NextResponse.json({ id: user.id, email: user.email, name: user.name });
+  } catch (error: any) {
+    return NextResponse.json({ error: 'Erreur lors de la création du compte' }, { status: 500 });
+  }
+}

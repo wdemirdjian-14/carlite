@@ -1,0 +1,244 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          String    @default("user")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Vehicle {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  tagline       String?
+  description   String
+  category      String
+  basePrice     Float
+  imageUrl      String
+  gallery       String[]
+  range         Int
+  topSpeed      Int
+  acceleration  Float   @default(0)
+  horsepower    Int     @default(0)
+  torque        Int     @default(0)
+  battery       String
+  seats         Int      @default(2)
+  trunk         Int      @default(0)
+  chargeTime    String
+  weight        Int      @default(700)
+  warranty      String   @default("2 ans")
+  featured      Boolean  @default(false)
+  available     Boolean  @default(true)
+  published     Boolean  @default(true)
+  permitType    String   @default("Sans permis")
+  motorPower    String   @default("")
+  dimensions    String   @default("")
+  stockStatus   String   @default("available")
+  keepVisible   Boolean  @default(true)
+  hasConfigurator  Boolean @default(false)
+  configIntro      String?
+  montageAvailable Boolean @default(false)
+  montagePrice     Float   @default(0)
+  montageLabel     String  @default("Montage chez un partenaire")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  colors        VehicleColor[]
+  wheels        VehicleWheel[]
+  options       VehicleOption[]
+  configCategories ConfigCategory[]
+  configRules      ConfigRule[]
+}
+
+model ConfigCategory {
+  id            String   @id @default(cuid())
+  vehicleId     String
+  vehicle       Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  name          String
+  icon          String   @default("")
+  description   String   @default("")
+  selectionType String   @default("radio")
+  order         Int      @default(0)
+  required      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  options       ConfigOption[]
+}
+
+model ConfigOption {
+  id            String   @id @default(cuid())
+  categoryId    String
+  category      ConfigCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name          String
+  priceModifier Float    @default(0)
+  description   String   @default("")
+  imageUrl      String   @default("")
+  colorHex      String   @default("")
+  active        Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ConfigRule {
+  id              String   @id @default(cuid())
+  vehicleId       String
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  ruleType        String   @default("incompatible")
+  triggerOptionId String
+  targetOptionId  String
+  message         String   @default("")
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model VehicleColor {
+  id         String  @id @default(cuid())
+  name       String
+  hex        String
+  price      Float   @default(0)
+  vehicleId  String
+  vehicle    Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model VehicleWheel {
+  id         String  @id @default(cuid())
+  name       String
+  size       String
+  price      Float   @default(0)
+  vehicleId  String
+  vehicle    Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model VehicleOption {
+  id          String  @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  category    String
+  imageUrl    String?
+  vehicleId   String
+  vehicle     Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model Accessory {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String
+  price       Float
+  imageUrl    String
+  category    String
+  gallery     String[]
+  compatibleVehicleIds     String[]
+  compatibleUsedVehicleIds String[]
+  inStock     Boolean @default(true)
+  stockStatus String  @default("available")
+  quantity    Int     @default(0)
+  keepVisible Boolean @default(true)
+  published   Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PartCategory {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String  @default("")
+  order       Int     @default(0)
+  isAccessory Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UsedVehicle {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String
+  price         Float
+  originalPrice Float
+  imageUrl      String
+  year          Int
+  mileage       Int
+  range         Int
+  battery       String
+  color         String
+  condition     String
+  seats         Int      @default(2)
+  homologation  String   @default("")
+  permitType    String   @default("")
+  features      String[]
+  gallery       String[]
+  available     Boolean  @default(true)
+  published     Boolean  @default(true)
+  featured      Boolean  @default(false)
+  stockStatus   String   @default("available")
+  keepVisible   Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Promotion {
+  id              String    @id @default(cuid())
+  title           String
+  targetType      String    @default("vehicle")
+  vehicleId       String?
+  accessoryId     String?
+  usedVehicleId   String?
+  discountedPrice Float     @default(0)
+  badge           String    @default("Offre spéciale")
+  description     String    @default("")
+  active          Boolean   @default(true)
+  featured        Boolean   @default(false)
+  startDate       DateTime?
+  endDate         DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Article {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  imageUrl    String
+  category    String
+  tags        String[]
+  author      String    @default("CARLITE")
+  published   Boolean   @default(true)
+  featured    Boolean   @default(false)
+  readTime    Int       @default(5)
+  publishDate DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TestDriveRequest {
+  id          String   @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  vehicleId   String?
+  vehicleName String?
+  message     String?
+  type        String   @default("test_drive")
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
