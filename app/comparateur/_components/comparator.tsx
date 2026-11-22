@@ -40,14 +40,14 @@ export function Comparator({ vehicles }: { vehicles: any[] }) {
     <div className="max-w-[1200px] mx-auto px-4 py-12">
       <SectionWrapper>
         <div className="text-center mb-10">
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Comparateur</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Comparateur</h1>
           <p className="text-muted-foreground">Comparez les véhicules CARLITE côte à côte pour trouver celui qui vous convient.</p>
         </div>
       </SectionWrapper>
 
-      <div className="bg-card rounded-xl p-5 shadow-[var(--shadow-md)] mb-8">
+      <div className="bg-card rounded-3xl p-5 shadow-[var(--shadow-md)] mb-8">
         <h3 className="font-display font-semibold mb-3 flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-green-600" /> Sélectionner des véhicules ({selected?.length ?? 0}/3)
+          <SlidersHorizontal className="h-4 w-4 text-brand-strong" /> Sélectionner des véhicules ({selected?.length ?? 0}/3)
         </h3>
         <div className="flex flex-wrap gap-2">
           {safe.map((v: any) => {
@@ -56,8 +56,8 @@ export function Comparator({ vehicles }: { vehicles: any[] }) {
               <button
                 key={v?.id}
                 onClick={() => isSelected ? removeVehicle(v?.id) : addVehicle(v?.id)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isSelected ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : 'bg-muted hover:bg-muted/80'
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                  isSelected ? 'bg-ink text-white dark:bg-white dark:text-gray-900' : 'bg-muted hover:bg-muted/80'
                 }`}
               >
                 {v?.name ?? ''}
@@ -78,11 +78,11 @@ export function Comparator({ vehicles }: { vehicles: any[] }) {
           <div className="grid gap-4" style={{ gridTemplateColumns: `200px repeat(${selectedVehicles.length}, 1fr)` }}>
             <div />
             {selectedVehicles.map((v: any) => (
-              <div key={v?.id} className="bg-card rounded-xl p-4 shadow-[var(--shadow-md)] text-center">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted mb-3">
+              <div key={v?.id} className="bg-card rounded-3xl p-4 shadow-[var(--shadow-md)] text-center">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-muted mb-3">
                   <Image src={v?.imageUrl ?? ''} alt={v?.name ?? ''} fill className="object-cover" />
                 </div>
-                <h3 className="font-display font-bold">{v?.name ?? ''}</h3>
+                <h3 className="font-display font-extrabold">{v?.name ?? ''}</h3>
                 <p className="text-xs text-muted-foreground">{v?.category ?? ''}</p>
               </div>
             ))}

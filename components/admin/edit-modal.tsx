@@ -52,7 +52,7 @@ function ImageUploadField({ value, onChange, label }: { value: string; onChange:
 
       // 2. Upload to S3 — check signed headers for content-disposition requirement
       const headers: Record<string, string> = { 'Content-Type': file.type };
-      const url = new URL(uploadUrl);
+      const url = new URL(uploadUrl, window.location.origin);
       const signedHeaders = url.searchParams.get('X-Amz-SignedHeaders') ?? '';
       if (signedHeaders.includes('content-disposition')) {
         headers['Content-Disposition'] = 'attachment';
@@ -175,7 +175,7 @@ function GalleryUploadField({ value, onChange, label }: { value: string[]; onCha
         if (!presignRes.ok) throw new Error('presign');
         const { uploadUrl, publicUrl } = await presignRes.json();
         const headers: Record<string, string> = { 'Content-Type': file.type };
-        const url = new URL(uploadUrl);
+        const url = new URL(uploadUrl, window.location.origin);
         if ((url.searchParams.get('X-Amz-SignedHeaders') ?? '').includes('content-disposition')) headers['Content-Disposition'] = 'attachment';
         const up = await fetch(uploadUrl, { method: 'PUT', headers, body: file });
         if (!up.ok) throw new Error('upload');

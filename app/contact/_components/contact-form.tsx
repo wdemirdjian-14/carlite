@@ -53,7 +53,7 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
       <div className="max-w-[1200px] mx-auto px-4 py-20 text-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
           <CheckCircle className="h-16 w-16 text-secondary mx-auto mb-4" />
-          <h2 className="font-display text-2xl font-bold mb-2">Demande envoyée !</h2>
+          <h2 className="font-display text-2xl font-extrabold mb-2">Demande envoyée !</h2>
           <p className="text-muted-foreground">Nous vous contacterons dans les plus brefs délais.</p>
         </motion.div>
       </div>
@@ -64,18 +64,18 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
     <div className="max-w-[1200px] mx-auto px-4 py-12">
       <SectionWrapper>
         <div className="text-center mb-10">
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Contact & Demande d’essai</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Contact & Demande d’essai</h1>
           <p className="text-muted-foreground max-w-md mx-auto">Remplissez le formulaire ci-dessous et notre équipe vous recontactera rapidement.</p>
         </div>
       </SectionWrapper>
 
       <div className="max-w-2xl mx-auto">
-        <form onSubmit={handleSubmit} className="bg-card rounded-xl p-8 shadow-[var(--shadow-md)] space-y-5">
+        <form onSubmit={handleSubmit} className="bg-card rounded-3xl p-8 shadow-[var(--shadow-md)] space-y-5">
           <div className="flex gap-2 mb-4">
-            <button type="button" onClick={() => setFormData({ ...(formData ?? {}), type: 'test_drive' })} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${formData?.type === 'test_drive' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+            <button type="button" onClick={() => setFormData({ ...(formData ?? {}), type: 'test_drive' })} className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors ${formData?.type === 'test_drive' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
               Demande d’essai
             </button>
-            <button type="button" onClick={() => setFormData({ ...(formData ?? {}), type: 'info' })} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${formData?.type === 'info' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+            <button type="button" onClick={() => setFormData({ ...(formData ?? {}), type: 'info' })} className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors ${formData?.type === 'info' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
               Demande d’information
             </button>
           </div>
@@ -85,14 +85,14 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
               <label className="text-sm font-medium mb-1 block">Prénom *</label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input name="firstName" value={formData?.firstName ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input name="firstName" value={formData?.firstName ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
             </div>
             <div>
               <label className="text-sm font-medium mb-1 block">Nom *</label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input name="lastName" value={formData?.lastName ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input name="lastName" value={formData?.lastName ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
             </div>
           </div>
@@ -101,7 +101,7 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
             <label className="text-sm font-medium mb-1 block">Email *</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <input name="email" type="email" value={formData?.email ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input name="email" type="email" value={formData?.email ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
           </div>
 
@@ -109,7 +109,7 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
             <label className="text-sm font-medium mb-1 block">Téléphone *</label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <input name="phone" value={formData?.phone ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+              <input name="phone" value={formData?.phone ?? ''} onChange={handleChange} required className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
           </div>
 
@@ -118,7 +118,7 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
               <label className="text-sm font-medium mb-1 block">Véhicule intéressé</label>
               <div className="relative">
                 <Car className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <select name="vehicleId" value={formData?.vehicleId ?? ''} onChange={handleChange} className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring appearance-none">
+                <select name="vehicleId" value={formData?.vehicleId ?? ''} onChange={handleChange} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring appearance-none">
                   <option value="">Sélectionnez un modèle</option>
                   {safe.map((v: any) => (<option key={v?.id} value={v?.id}>{v?.name ?? ''}</option>))}
                 </select>
@@ -130,11 +130,11 @@ export function ContactForm({ vehicles }: { vehicles: any[] }) {
             <label className="text-sm font-medium mb-1 block">Message</label>
             <div className="relative">
               <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <textarea name="message" value={formData?.message ?? ''} onChange={handleChange} rows={4} className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none" />
+              <textarea name="message" value={formData?.message ?? ''} onChange={handleChange} rows={4} className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none" />
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
             {loading ? 'Envoi en cours...' : <><Send className="h-4 w-4" /> Envoyer ma demande</>}
           </button>
           <p className="text-xs text-muted-foreground text-center">Vos données sont traitées de manière confidentielle.</p>

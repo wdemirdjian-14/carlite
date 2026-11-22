@@ -28,7 +28,7 @@ export function SearchContent() {
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-12">
       <div className="text-center mb-10">
-        <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Recherche</h1>
+        <h1 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Recherche</h1>
         <p className="text-muted-foreground">Trouvez des véhicules, accessoires et véhicules d’occasion.</p>
       </div>
 
@@ -42,10 +42,10 @@ export function SearchContent() {
               onChange={(e: any) => setQuery(e?.target?.value ?? '')}
               onKeyDown={(e: any) => e?.key === 'Enter' && handleSearch()}
               placeholder="Rechercher un véhicule, accessoire..."
-              className="w-full pl-10 pr-4 py-3 rounded-lg border border-input bg-card text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-input bg-card text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
-          <button onClick={handleSearch} disabled={loading} className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
+          <button onClick={handleSearch} disabled={loading} className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Rechercher'}
           </button>
         </div>
@@ -56,13 +56,13 @@ export function SearchContent() {
           {/* Vehicles */}
           {(results?.vehicles?.length ?? 0) > 0 && (
             <div>
-              <h2 className="font-display text-xl font-bold mb-4">Véhicules neufs</h2>
+              <h2 className="font-display text-xl font-extrabold mb-4">Véhicules neufs</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {results?.vehicles?.map?.((v: any) => (
-                  <Link key={v?.id} href={`/vehicules/${v?.slug ?? ''}`} className="group bg-card rounded-xl overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all">
+                  <Link key={v?.id} href={`/vehicules/${v?.slug ?? ''}`} className="group bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all">
                     <div className="relative aspect-[4/3] bg-muted"><Image src={v?.imageUrl ?? ''} alt={v?.name ?? ''} fill className="object-cover" /></div>
                     <div className="p-4">
-                      <h3 className="font-display font-bold">{v?.name ?? ''}</h3>
+                      <h3 className="font-display font-extrabold">{v?.name ?? ''}</h3>
                       <p className="text-sm font-mono text-primary">{euroHT(v?.basePrice)}</p>
                     </div>
                   </Link>
@@ -73,13 +73,13 @@ export function SearchContent() {
           {/* Accessories */}
           {(results?.accessories?.length ?? 0) > 0 && (
             <div>
-              <h2 className="font-display text-xl font-bold mb-4">Accessoires</h2>
+              <h2 className="font-display text-xl font-extrabold mb-4">Accessoires</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {results?.accessories?.map?.((a: any) => (
-                  <div key={a?.id} className="bg-card rounded-xl overflow-hidden shadow-[var(--shadow-sm)]">
+                  <div key={a?.id} className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-sm)]">
                     <div className="relative aspect-square bg-muted"><Image src={a?.imageUrl ?? ''} alt={a?.name ?? ''} fill className="object-cover" /></div>
                     <div className="p-4">
-                      <h3 className="font-display font-bold">{a?.name ?? ''}</h3>
+                      <h3 className="font-display font-extrabold">{a?.name ?? ''}</h3>
                       <p className="text-sm font-mono text-primary">{euroHT(a?.price)}</p>
                     </div>
                   </div>
@@ -90,13 +90,13 @@ export function SearchContent() {
           {/* Used */}
           {(results?.usedVehicles?.length ?? 0) > 0 && (
             <div>
-              <h2 className="font-display text-xl font-bold mb-4">Véhicules d’occasion</h2>
+              <h2 className="font-display text-xl font-extrabold mb-4">Véhicules d’occasion</h2>
               <div className="grid md:grid-cols-3 gap-4">
                 {results?.usedVehicles?.map?.((v: any) => (
-                  <div key={v?.id} className="bg-card rounded-xl overflow-hidden shadow-[var(--shadow-sm)]">
+                  <div key={v?.id} className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-sm)]">
                     <div className="relative aspect-[4/3] bg-muted"><Image src={v?.imageUrl ?? ''} alt={v?.name ?? ''} fill className="object-cover" /></div>
                     <div className="p-4">
-                      <h3 className="font-display font-bold">{v?.name ?? ''}</h3>
+                      <h3 className="font-display font-extrabold">{v?.name ?? ''}</h3>
                       <p className="text-sm font-mono text-primary">{euroHT(v?.price)}</p>
                     </div>
                   </div>
@@ -107,14 +107,14 @@ export function SearchContent() {
           {/* Articles */}
           {(results?.articles?.length ?? 0) > 0 && (
             <div>
-              <h2 className="font-display text-xl font-bold mb-4">Articles</h2>
+              <h2 className="font-display text-xl font-extrabold mb-4">Articles</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 {results?.articles?.map?.((a: any) => (
-                  <Link key={a?.id} href={`/articles/${a?.slug ?? ''}`} className="group bg-card rounded-xl overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all flex">
+                  <Link key={a?.id} href={`/articles/${a?.slug ?? ''}`} className="group bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all flex">
                     <div className="relative w-32 shrink-0 bg-muted"><Image src={a?.imageUrl ?? ''} alt={a?.title ?? ''} fill className="object-cover" /></div>
                     <div className="p-4 flex-1">
                       <span className="text-xs font-medium text-primary">{a?.category ?? ''}</span>
-                      <h3 className="font-display font-bold mt-1 line-clamp-2">{a?.title ?? ''}</h3>
+                      <h3 className="font-display font-extrabold mt-1 line-clamp-2">{a?.title ?? ''}</h3>
                       <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{a?.excerpt ?? ''}</p>
                     </div>
                   </Link>

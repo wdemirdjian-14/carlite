@@ -1,31 +1,47 @@
+import { Suspense } from 'react';
 import { PageLayout } from '@/components/page-layout';
-import { AccessoryList } from './_components/accessory-list';
+import { PartsExplorer } from './_components/parts-explorer';
 import { prisma } from '@/lib/prisma';
-import { getPromoMaps } from '@/lib/promotions';
+import { getCompatibilityTargets, getVisibleParts } from '@/lib/catalog';
+import { Truck, Wrench, ShieldCheck } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Pièces détachées & Accessoires' };
+export const metadata = {
+  title: 'Pièces détachées pour véhicules électriques',
+  description:
+    'Chargeurs, batteries lithium, convertisseurs DC/DC, éclairage LED, afficheurs : recherchez parmi les pièces détachées CARLITE pour quadricycles, golfettes et utilitaires électriques.',
+};
 
 export default async function AccessoiresPage() {
-  let accessories: any[] = [];
-  let categories: any[] = [];
+  const parts = await getVisibleParts();
+  let categories: string[] = [];
   try {
-    [accessories, categories] = await Promise.all([
-      prisma.accessory.findMany({ where: { inStock: true, published: true, NOT: { stockStatus: 'out_of_stock', keepVisible: false } }, orderBy: { name: 'asc' } }),
-      prisma.partCategory.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }] }),
-    ]);
-    const { byAccessory } = await getPromoMaps();
-    accessories = accessories.map((a: any) => ({ ...a, promo: byAccessory[a.id] ?? null }));
+    categories = (await prisma.partCategory.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }] })).map((c) => c.name);
   } catch {}
+  const targets = await getCompatibilityTargets(parts);
 
   return (
     <PageLayout>
-      <div className="max-w-[1200px] mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Pièces détachées & Accessoires</h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">Trouvez la pièce détachée ou l'accessoire qu'il vous faut pour votre véhicule CARLITE, classés par catégorie.</p>
+      <div className="max-w-[1240px] mx-auto px-4 pt-6 lg:pt-10">
+        <div className="mb-4 lg:mb-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-brand-strong">Atelier CARLITE</p>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] mt-2">
+              Pièces détachées
+            </h1>
+            <p className="text-muted-foreground mt-3 max-w-xl">
+              Quadricycles, golfettes, utilitaires : trouvez la pièce par mot-clé, type, tension, marque ou budget.
+            </p>
+          </div>
+          <ul className="hidden sm:flex flex-wrap gap-2 text-sm">
+            <li className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-muted"><Wrench className="h-4 w-4" /> Conseil technique</li>
+            <li className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-muted"><Truck className="h-4 w-4" /> Expédition France</li>
+            <li className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-muted"><ShieldCheck className="h-4 w-4" /> Pièces vérifiées</li>
+          </ul>
         </div>
-        <AccessoryList accessories={JSON.parse(JSON.stringify(accessories ?? []))} categories={JSON.parse(JSON.stringify(categories ?? []))} />
+        <Suspense fallback={<div className="h-96" />}>
+          <PartsExplorer parts={parts} categories={categories} targets={targets} />
+        </Suspense>
       </div>
     </PageLayout>
   );

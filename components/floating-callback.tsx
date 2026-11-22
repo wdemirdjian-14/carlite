@@ -1,32 +1,44 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, X, Send, Loader2, CheckCircle } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { COMPANY_INFO, OPEN_CALLBACK_EVENT } from '@/lib/constants';
 
+/**
+ * Demande de rappel : bouton flottant sur desktop, ouvert depuis l'onglet « Rappel » de la barre
+ * mobile (événement OPEN_CALLBACK_EVENT). Envoie vers /api/callback (enregistré en base + email).
+ */
 export function FloatingCallback() {
   const [open, setOpen] = useState(false);
   const [prenom, setPrenom] = useState('');
   const [telephone, setTelephone] = useState('');
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
-  const formRef = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState('');
   const pathname = usePathname();
 
-  // Hide on admin pages
-  if (pathname?.startsWith?.('/admin') || pathname?.startsWith?.('/login')) return null;
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener(OPEN_CALLBACK_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CALLBACK_EVENT, onOpen);
+  }, []);
+  useEffect(() => setOpen(false), [pathname]);
+
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/login')) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e?.preventDefault?.();
-    if (!prenom?.trim() || !telephone?.trim() || sending) return;
+    e.preventDefault();
+    if (!prenom.trim() || !telephone.trim() || sending) return;
     setSending(true);
+    setError('');
     try {
       const res = await fetch('/api/callback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prenom: prenom?.trim(), telephone: telephone?.trim() }),
+        body: JSON.stringify({ prenom: prenom.trim(), telephone: telephone.trim() }),
       });
-      if (res?.ok) {
+      if (res.ok) {
         setSent(true);
         setTimeout(() => {
           setSent(false);
@@ -34,8 +46,10 @@ export function FloatingCallback() {
           setPrenom('');
           setTelephone('');
         }, 3000);
-      }
-    } catch {}
+      } else setError('Envoi impossible, appelez-nous directement.');
+    } catch {
+      setError('Envoi impossible, appelez-nous directement.');
+    }
     setSending(false);
   };
 
@@ -43,81 +57,88 @@ export function FloatingCallback() {
     <>
       <AnimatePresence>
         {open && (
-          <motion.div
-            ref={formRef}
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 w-[300px] bg-card rounded-2xl shadow-2xl border border-border overflow-hidden"
-          >
-            <div className="bg-gradient-to-r from-green-600 to-green-500 px-5 py-4">
-              <div className="flex items-center justify-between">
+          <>
+            <motion.div
+              className="fixed inset-0 z-[60] bg-black/40 lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              className="fixed z-[61] inset-x-0 bottom-0 lg:inset-x-auto lg:bottom-24 lg:right-6 lg:w-[340px] bg-card rounded-t-3xl lg:rounded-3xl shadow-2xl border border-border overflow-hidden pb-safe"
+              role="dialog"
+              aria-label="Être rappelé"
+            >
+              <div className="px-5 pt-5 pb-3 flex items-start justify-between">
                 <div>
-                  <h3 className="text-white font-display font-bold text-sm">Être rappelé</h3>
-                  <p className="text-green-100 text-xs mt-0.5">Nous vous rappelons rapidement</p>
+                  <h3 className="font-display font-extrabold text-xl tracking-tight">On vous rappelle</h3>
+                  <p className="text-sm text-muted-foreground">Gratuit, sous 24 h ouvrées.</p>
                 </div>
-                <button onClick={() => setOpen(false)} className="text-white/80 hover:text-white transition-colors p-1">
-                  <X className="h-4 w-4" />
+                <button onClick={() => setOpen(false)} className="p-2 -m-1 rounded-full hover:bg-muted" aria-label="Fermer">
+                  <X className="h-5 w-5" />
                 </button>
               </div>
-            </div>
 
-            {sent ? (
-              <div className="px-5 py-8 text-center">
-                <CheckCircle className="h-10 w-10 text-green-500 mx-auto mb-3" />
-                <p className="font-medium text-sm">Demande envoyée !</p>
-                <p className="text-xs text-muted-foreground mt-1">Nous vous rappelons très vite.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="px-5 py-4 space-y-3">
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1">Prénom</label>
+              {sent ? (
+                <div className="px-5 py-8 text-center">
+                  <CheckCircle className="h-12 w-12 text-brand-strong mx-auto mb-3" />
+                  <p className="font-semibold">Demande envoyée !</p>
+                  <p className="text-sm text-muted-foreground mt-1">Nous vous rappelons très vite.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="px-5 pb-5 space-y-3">
                   <input
                     type="text"
                     value={prenom}
-                    onChange={(e) => setPrenom(e?.target?.value ?? '')}
+                    onChange={(e) => setPrenom(e.target.value)}
                     placeholder="Votre prénom"
+                    autoComplete="given-name"
                     required
-                    className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50"
+                    className="w-full h-12 px-4 rounded-2xl border border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-brand"
                   />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1">Téléphone</label>
                   <input
                     type="tel"
                     value={telephone}
-                    onChange={(e) => setTelephone(e?.target?.value ?? '')}
-                    placeholder="06 XX XX XX XX"
+                    onChange={(e) => setTelephone(e.target.value)}
+                    placeholder="Téléphone"
+                    autoComplete="tel"
+                    inputMode="tel"
                     required
-                    className="w-full px-3 py-2 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50"
+                    className="w-full h-12 px-4 rounded-2xl border border-input bg-background text-base focus:outline-none focus:ring-2 focus:ring-brand"
                   />
-                </div>
-                <button
-                  type="submit"
-                  disabled={sending || !prenom?.trim() || !telephone?.trim()}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
-                >
-                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                  {sending ? 'Envoi...' : 'Demander un rappel'}
-                </button>
-              </form>
-            )}
-          </motion.div>
+                  {error && <p className="text-xs text-destructive">{error}</p>}
+                  <button
+                    type="submit"
+                    disabled={sending || !prenom.trim() || !telephone.trim()}
+                    className="w-full h-12 flex items-center justify-center gap-2 rounded-2xl bg-brand text-brand-foreground font-semibold hover:brightness-95 transition disabled:opacity-50"
+                  >
+                    {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                    {sending ? 'Envoi…' : 'Être rappelé'}
+                  </button>
+                  <a href={COMPANY_INFO.phoneHref} className="block text-center text-sm text-muted-foreground">
+                    ou appelez le <span className="font-semibold text-foreground">{COMPANY_INFO.phone}</span>
+                  </a>
+                </form>
+              )}
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
-      {/* Floating phone button */}
-      <motion.button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 rounded-full bg-green-600 text-white shadow-lg shadow-green-600/30 flex items-center justify-center hover:bg-green-700 transition-colors"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        animate={open ? {} : { boxShadow: ['0 0 0 0 rgba(22,163,74,0.4)', '0 0 0 12px rgba(22,163,74,0)', '0 0 0 0 rgba(22,163,74,0.4)'] }}
-        transition={open ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      {/* Bouton flottant (desktop uniquement : sur mobile, c'est l'onglet « Rappel ») */}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="hidden lg:flex fixed bottom-6 right-6 z-50 h-14 pl-4 pr-5 gap-2 rounded-full bg-brand text-brand-foreground font-semibold shadow-xl shadow-brand/30 items-center hover:scale-105 active:scale-95 transition-transform"
+        aria-label="Être rappelé"
       >
-        {open ? <X className="h-6 w-6" /> : <Phone className="h-6 w-6" />}
-      </motion.button>
+        {open ? <X className="h-5 w-5" /> : <Phone className="h-5 w-5" />}
+        {open ? 'Fermer' : 'Être rappelé'}
+      </button>
     </>
   );
 }

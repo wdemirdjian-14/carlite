@@ -47,7 +47,7 @@ export function ExpertContactForm() {
   return (
     <section id="contact-expert" className="relative overflow-hidden scroll-mt-20">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-green-950" />
+      <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink to-ink" />
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(74,222,128,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(74,222,128,0.15) 0%, transparent 40%)' }} />
 
       <div className="relative max-w-[1200px] mx-auto px-4 py-20 md:py-28">
@@ -55,13 +55,13 @@ export function ExpertContactForm() {
           {/* Left: Text */}
           <SectionWrapper>
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-sm font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20 text-brand text-sm font-medium mb-6">
                 <MessageSquare className="h-4 w-4" />
                 Conseil personnalisé
               </div>
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
                 Vous voulez discuter avec un{' '}
-                <span className="text-green-400">expert</span> ?
+                <span className="text-brand">expert</span> ?
               </h2>
               <p className="text-lg text-gray-300 mb-4 leading-relaxed">
                 Vous avez un projet de véhicule électrique adapté à vos besoins ? Nos experts sont là pour vous accompagner et vous aider à prendre la bonne décision.
@@ -71,14 +71,14 @@ export function ExpertContactForm() {
               </p>
               <div className="flex flex-col gap-3 text-sm text-gray-400">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                    <Phone className="h-4 w-4 text-green-400" />
+                  <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                    <Phone className="h-4 w-4 text-brand" />
                   </div>
                   <span>Un expert vous rappelle sous 24h</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                    <CheckCircle className="h-4 w-4 text-green-400" />
+                  <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
+                    <CheckCircle className="h-4 w-4 text-brand" />
                   </div>
                   <span>Conseil gratuit et sans engagement</span>
                 </div>
@@ -96,14 +96,14 @@ export function ExpertContactForm() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10 text-center"
                 >
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-5">
-                    <CheckCircle className="h-8 w-8 text-green-400" />
+                  <div className="w-16 h-16 rounded-full bg-brand/20 flex items-center justify-center mx-auto mb-5">
+                    <CheckCircle className="h-8 w-8 text-brand" />
                   </div>
-                  <h3 className="font-display text-xl font-bold text-white mb-3">Message envoyé !</h3>
+                  <h3 className="font-display text-xl font-extrabold text-white mb-3">Message envoyé !</h3>
                   <p className="text-gray-400 mb-6">Merci pour votre demande. Un expert CARLITE vous contactera très rapidement pour discuter de votre projet.</p>
                   <button
                     onClick={() => setSuccess(false)}
-                    className="text-sm text-green-400 hover:text-green-300 transition-colors underline underline-offset-4"
+                    className="text-sm text-brand hover:text-brand transition-colors underline underline-offset-4"
                   >
                     Envoyer une autre demande
                   </button>
@@ -127,7 +127,7 @@ export function ExpertContactForm() {
                           value={form.prenom}
                           onChange={handleChange}
                           placeholder="Votre prénom"
-                          className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all"
                         />
                       </div>
                     </div>
@@ -141,7 +141,7 @@ export function ExpertContactForm() {
                           value={form.nom}
                           onChange={handleChange}
                           placeholder="Votre nom"
-                          className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                          className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all"
                         />
                       </div>
                     </div>
@@ -157,7 +157,7 @@ export function ExpertContactForm() {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="votre@email.fr"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all"
                       />
                     </div>
                   </div>
@@ -172,7 +172,7 @@ export function ExpertContactForm() {
                         value={form.telephone}
                         onChange={handleChange}
                         placeholder="06 XX XX XX XX"
-                        className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all"
                       />
                     </div>
                   </div>
@@ -187,7 +187,7 @@ export function ExpertContactForm() {
                       onChange={handleChange}
                       placeholder="Décrivez brièvement votre projet ou vos besoins..."
                       rows={3}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all resize-none"
                     />
                   </div>
 
@@ -204,7 +204,7 @@ export function ExpertContactForm() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-green-600 hover:bg-green-500 text-white font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-600/20"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand hover:brightness-95 text-brand-foreground font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand/20"
                   >
                     {loading ? (
                       <><Loader2 className="h-5 w-5 animate-spin" /> Envoi en cours...</>

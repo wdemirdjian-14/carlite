@@ -4,37 +4,41 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 8%;
+    --background: 60 14% 98%;
+    --foreground: 222 30% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card-foreground: 222 30% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 222 30% 8%;
 
-    --primary: 0 0% 15%;
+    --primary: 222 30% 10%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 83 50% 45%;
+    --secondary: 152 64% 36%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
+    --brand: 76 92% 52%;
+    --brand-foreground: 222 30% 8%;
+    --brand-strong: 142 72% 32%;
 
-    --accent: 0 0% 94%;
-    --accent-foreground: 0 0% 8%;
+    --muted: 60 8% 94%;
+    --muted-foreground: 222 10% 42%;
 
-    --destructive: 0 84% 60%;
+    --accent: 60 8% 94%;
+    --accent-foreground: 222 30% 8%;
+
+    --destructive: 0 84% 58%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 15%;
+    --border: 60 6% 89%;
+    --input: 60 6% 86%;
+    --ring: 222 30% 10%;
 
-    --radius: 0.625rem;
-    --radius-sm: calc(0.625rem - 4px);
-    --radius-lg: calc(0.625rem + 4px);
+    --radius: 1rem;
+    --radius-sm: calc(1rem - 6px);
+    --radius-lg: calc(1rem + 6px);
     --radius-full: 9999px;
 
     --spacing-xs: 4px;
@@ -61,33 +65,37 @@
   }
 
   .dark {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 96%;
+    --background: 222 30% 6%;
+    --foreground: 60 10% 96%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 96%;
+    --card: 222 24% 10%;
+    --card-foreground: 60 10% 96%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 222 24% 10%;
+    --popover-foreground: 60 10% 96%;
 
-    --primary: 0 0% 85%;
-    --primary-foreground: 0 0% 5%;
+    --primary: 60 10% 96%;
+    --primary-foreground: 222 30% 8%;
 
-    --secondary: 83 50% 40%;
+    --secondary: 152 60% 40%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 55%;
+    --brand: 76 92% 55%;
+    --brand-foreground: 222 30% 8%;
+    --brand-strong: 76 80% 60%;
 
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 96%;
+    --muted: 222 20% 15%;
+    --muted-foreground: 222 10% 64%;
+
+    --accent: 222 20% 15%;
+    --accent-foreground: 60 10% 96%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 0 0% 85%;
+    --border: 222 18% 18%;
+    --input: 222 18% 22%;
+    --ring: 76 92% 55%;
 
     --chart-1: 0 0% 85%;
     --chart-2: 83 50% 40%;
@@ -101,8 +109,16 @@
   * {
     @apply border-border;
   }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
   }
   [data-hydration-error] {
     display: none !important;
@@ -118,5 +134,38 @@
   }
   .duration-slow {
     transition-duration: var(--duration-slow);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  /* Espace réservé à la barre de navigation mobile */
+  .pb-mobile-nav {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+  @media (min-width: 1024px) {
+    .pb-mobile-nav {
+      padding-bottom: 0;
+    }
+  }
+  .text-gradient-brand {
+    background: linear-gradient(100deg, hsl(var(--brand)) 0%, #5eead4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-grid {
+    background-image: linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 }

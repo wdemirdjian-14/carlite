@@ -41,7 +41,7 @@ const faqs = [
 
 function FaqItem({ item, isOpen, toggle }: { item: any; isOpen: boolean; toggle: () => void }) {
   return (
-    <div className="bg-card rounded-xl shadow-[var(--shadow-sm)] overflow-hidden">
+    <div className="bg-card rounded-3xl shadow-[var(--shadow-sm)] overflow-hidden">
       <button onClick={toggle} className="w-full flex items-center justify-between p-5 text-left hover:bg-muted/50 transition-colors">
         <span className="font-medium pr-4">{item?.q ?? ''}</span>
         <ChevronDown className={`h-5 w-5 text-muted-foreground flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -69,10 +69,10 @@ export function FaqContent() {
     <div className="max-w-[1200px] mx-auto px-4 py-12">
       <SectionWrapper>
         <div className="text-center mb-12">
-          <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mx-auto mb-4">
-            <HelpCircle className="h-6 w-6 text-green-600" />
+          <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mx-auto mb-4">
+            <HelpCircle className="h-6 w-6 text-brand-strong" />
           </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Questions fréquentes</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Questions fréquentes</h1>
           <p className="text-muted-foreground max-w-md mx-auto">Trouvez rapidement les réponses à vos questions sur les véhicules électriques CARLITE.</p>
         </div>
       </SectionWrapper>

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
-import { sendEmail } from '@/lib/send-email';
+import { sendEmail, escapeHtml } from '@/lib/send-email';
 
 export async function POST(request: Request) {
   try {
@@ -21,26 +21,26 @@ export async function POST(request: Request) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; width: 120px; vertical-align: top;">Nom</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${nom ?? ''}</td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${escapeHtml(nom)}</td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; vertical-align: top;">Prénom</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${prenom ?? ''}</td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${escapeHtml(prenom)}</td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; vertical-align: top;">Email</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="mailto:${email ?? ''}" style="color: #16a34a; text-decoration: none;">${email ?? ''}</a></td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="mailto:${escapeHtml(email)}" style="color: #16a34a; text-decoration: none;">${escapeHtml(email)}</a></td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; vertical-align: top;">Téléphone</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="tel:${telephone ?? ''}" style="color: #16a34a; text-decoration: none;">${telephone ?? ''}</a></td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="tel:${escapeHtml(telephone)}" style="color: #16a34a; text-decoration: none;">${escapeHtml(telephone)}</a></td>
             </tr>
             ${(description?.trim?.()) ? `
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; vertical-align: top;">Projet</td>
               <td style="padding: 10px 0; color: #111827; font-size: 14px;">
                 <div style="background: white; padding: 12px; border-radius: 6px; border-left: 3px solid #16a34a;">
-                  ${description}
+                  ${escapeHtml(description)}
                 </div>
               </td>
             </tr>

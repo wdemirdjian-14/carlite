@@ -18,7 +18,7 @@ export function ArticleDetail({ article, related }: { article: any; related: any
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-gray-950 text-white">
+      <section className="relative bg-ink text-white">
         <div className="absolute inset-0">
           <Image src={a?.imageUrl ?? ''} alt={a?.title ?? ''} fill className="object-cover opacity-30" priority />
         </div>
@@ -28,11 +28,11 @@ export function ArticleDetail({ article, related }: { article: any; related: any
               <ArrowLeft className="h-4 w-4" /> Retour aux articles
             </Link>
             <div className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold uppercase">{a?.category}</span>
+              <span className="px-3 py-1 rounded-full bg-brand/20 text-brand text-xs font-bold uppercase">{a?.category}</span>
               <span className="flex items-center gap-1 text-sm text-gray-400"><Clock className="h-3.5 w-3.5" /> {a?.readTime ?? 5} min de lecture</span>
               <span className="flex items-center gap-1 text-sm text-gray-400"><Calendar className="h-3.5 w-3.5" /> {formatDate(a?.createdAt)}</span>
             </div>
-            <h1 className="font-display text-3xl md:text-5xl font-bold tracking-tight mb-4">{a?.title}</h1>
+            <h1 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4">{a?.title}</h1>
             <p className="text-lg text-gray-300">{a?.excerpt}</p>
           </motion.div>
         </div>
@@ -52,9 +52,9 @@ export function ArticleDetail({ article, related }: { article: any; related: any
             prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
             prose-p:text-muted-foreground prose-p:leading-relaxed
             prose-strong:text-foreground
-            prose-a:text-green-600 dark:prose-a:text-green-400 prose-a:no-underline hover:prose-a:underline
+            prose-a:text-brand-strong dark:prose-a:text-brand prose-a:no-underline hover:prose-a:underline
             prose-li:text-muted-foreground
-            prose-blockquote:border-green-500 prose-blockquote:bg-green-500/5 prose-blockquote:rounded-r-xl prose-blockquote:py-1
+            prose-blockquote:border-brand prose-blockquote:bg-brand/5 prose-blockquote:rounded-r-xl prose-blockquote:py-1
           ">
             {a?.content?.split?.('\n')?.map?.((para: string, i: number) => {
               const trimmed = para?.trim?.() ?? '';
@@ -87,19 +87,19 @@ export function ArticleDetail({ article, related }: { article: any; related: any
         <section className="bg-muted/30">
           <div className="max-w-[1200px] mx-auto px-4 py-16">
             <SectionWrapper>
-              <h2 className="font-display text-2xl font-bold tracking-tight mb-8">Articles similaires</h2>
+              <h2 className="font-display text-2xl font-extrabold tracking-tight mb-8">Articles similaires</h2>
             </SectionWrapper>
             <div className="grid md:grid-cols-3 gap-6">
               {safeRelated.map((r: any, i: number) => (
                 <SectionWrapper key={r?.id ?? i} delay={i * 0.1}>
                   <Link href={`/articles/${r?.slug ?? ''}`}>
-                    <div className="group bg-card rounded-xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:-translate-y-1">
+                    <div className="group bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:-translate-y-1">
                       <div className="relative aspect-[16/10] bg-muted">
                         <Image src={r?.imageUrl ?? ''} alt={r?.title ?? ''} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                       </div>
                       <div className="p-4">
-                        <span className="text-xs font-medium text-green-600 dark:text-green-400">{r?.category}</span>
-                        <h3 className="font-display font-bold mt-1 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">{r?.title}</h3>
+                        <span className="text-xs font-medium text-brand-strong dark:text-brand">{r?.category}</span>
+                        <h3 className="font-display font-extrabold mt-1 line-clamp-2 group-hover:text-brand-strong dark:group-hover:text-brand transition-colors">{r?.title}</h3>
                       </div>
                     </div>
                   </Link>
@@ -115,10 +115,10 @@ export function ArticleDetail({ article, related }: { article: any; related: any
         <SectionWrapper>
           <p className="text-muted-foreground mb-4">Envie de découvrir nos véhicules électriques ?</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/vehicules" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">
+            <Link href="/vehicules" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-ink text-white text-sm font-medium hover:opacity-90 transition-colors dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">
               Voir la gamme <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/articles" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-muted text-sm font-medium hover:bg-muted/80 transition-colors">
+            <Link href="/articles" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-muted text-sm font-medium hover:bg-muted/80 transition-colors">
               Tous les articles
             </Link>
           </div>

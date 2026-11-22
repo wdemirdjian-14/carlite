@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils';
 import { formatEuro, htToTtc } from '@/lib/pricing';
 
 /**
- * Displays a price as HT (main) with the TTC equivalent in small text below.
- * `ht` is the stored (hors taxes) amount.
+ * Prix HT (principal) avec l'équivalent TTC en petit dessous.
+ * `ht` est le montant hors taxes enregistré. Un prix nul s'affiche « Prix sur demande ».
  */
 export function PriceTag({
   ht,
@@ -11,13 +11,23 @@ export function PriceTag({
   className,
   ttcClassName,
   showTtc = true,
+  onRequestLabel = 'Prix sur demande',
 }: {
   ht: number | null | undefined;
   prefix?: string;
   className?: string;
   ttcClassName?: string;
   showTtc?: boolean;
+  onRequestLabel?: string | null;
 }) {
+  if (onRequestLabel && (!ht || ht <= 0)) {
+    return (
+      <span className="inline-flex flex-col leading-tight">
+        <span className={cn(className, 'font-sans text-[0.8em] font-semibold')}>{onRequestLabel}</span>
+        {showTtc && <span className={cn('text-xs font-normal text-muted-foreground', ttcClassName)}>Devis sous 24 h</span>}
+      </span>
+    );
+  }
   const ttc = htToTtc(ht);
   return (
     <span className="inline-flex flex-col leading-tight">

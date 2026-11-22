@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { sendEmail } from '@/lib/send-email';
+import { sendEmail, escapeHtml } from '@/lib/send-email';
 
 export async function POST(request: Request) {
   try {
@@ -35,11 +35,11 @@ export async function POST(request: Request) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px; width: 120px;">Prénom</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${prenom ?? ''}</td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px; font-weight: 600;">${escapeHtml(prenom)}</td>
             </tr>
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 14px;">Téléphone</td>
-              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="tel:${telephone ?? ''}" style="color: #16a34a; text-decoration: none; font-weight: 600;">${telephone ?? ''}</a></td>
+              <td style="padding: 10px 0; color: #111827; font-size: 14px;"><a href="tel:${escapeHtml(telephone)}" style="color: #16a34a; text-decoration: none; font-weight: 600;">${escapeHtml(telephone)}</a></td>
             </tr>
           </table>
         </div>

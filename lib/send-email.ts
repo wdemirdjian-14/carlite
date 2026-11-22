@@ -23,7 +23,7 @@ export async function sendEmail(opts: {
   html: string;
   replyTo?: string;
 }): Promise<{ success: boolean; error?: string }> {
-  if (!process.env.SMTP_HOST) {
+  if (!process.env.SMTP_HOST || process.env.SMTP_HOST.startsWith('<')) {
     console.error('SMTP_HOST non configuré : email non envoyé');
     return { success: false, error: 'SMTP not configured' };
   }
@@ -40,4 +40,14 @@ export async function sendEmail(opts: {
     console.error('Email send error:', e?.message);
     return { success: false, error: e?.message };
   }
+}
+
+/** Échappe une valeur saisie par un visiteur avant de l'insérer dans le HTML d'un email. */
+export function escapeHtml(v: unknown): string {
+  return String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
