@@ -172,7 +172,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
     <div className="max-w-[1200px] mx-auto px-4 py-12">
       <SectionWrapper>
         <div className="text-center mb-10">
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-tight mb-3">Configurateur</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Configurateur</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">{vehicle?.configIntro?.trim() ? vehicle.configIntro : 'Personnalisez votre véhicule CARLITE : couleur, équipements et options sur mesure.'}</p>
         </div>
       </SectionWrapper>
@@ -181,15 +181,15 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
         {/* Left: Config options */}
         <div className="lg:col-span-2 space-y-6">
           {/* Vehicle selector */}
-          <div className="bg-card rounded-xl p-5 shadow-[var(--shadow-md)]">
-            <h3 className="font-display font-semibold mb-3 flex items-center gap-2"><Settings className="h-4 w-4 text-green-600" /> Modèle</h3>
+          <div className="bg-card rounded-3xl p-5 shadow-[var(--shadow-md)]">
+            <h3 className="font-display font-semibold mb-3 flex items-center gap-2"><Settings className="h-4 w-4 text-brand-strong" /> Modèle</h3>
             <div className="space-y-2">
               {safe.map((v: any, i: number) => (
                 <button
                   key={v?.id ?? i}
                   onClick={() => switchVehicle(i)}
-                  className={`w-full text-left p-3 rounded-lg transition-colors flex items-center justify-between ${
-                    i === selectedVehicleIdx ? 'bg-gray-900 text-white' : 'bg-muted/50 hover:bg-muted'
+                  className={`w-full text-left p-3 rounded-xl transition-colors flex items-center justify-between ${
+                    i === selectedVehicleIdx ? 'bg-ink text-white' : 'bg-muted/50 hover:bg-muted'
                   }`}
                 >
                   <div>
@@ -210,9 +210,9 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
             const curSel = selected[cat.id] ?? [];
             const hasSel = opts.some((o: any) => curSel.includes(o.id));
             return (
-              <div key={cat.id} className="bg-card rounded-xl p-5 shadow-[var(--shadow-md)]">
+              <div key={cat.id} className="bg-card rounded-3xl p-5 shadow-[var(--shadow-md)]">
                 <h3 className="font-display font-semibold mb-1 flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-green-600" /> {cat.name}
+                  <Icon className="h-4 w-4 text-brand-strong" /> {cat.name}
                   {cat.required && <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-100 dark:bg-red-900/20 text-red-600 font-normal">requis</span>}
                 </h3>
                 {cat.description && <p className="text-xs text-muted-foreground mb-3">{cat.description}</p>}
@@ -222,7 +222,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                   <select
                     value={curSel[0] ?? ''}
                     onChange={(e) => selectDropdown(cat, e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full px-3 py-2.5 rounded-xl border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                   >
                     {!cat.required && <option value="">— Choisir —</option>}
                     {opts.map((o: any) => (
@@ -238,7 +238,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                           <button
                             key={o.id}
                             onClick={() => selectOption(cat, o.id)}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${isSel ? 'ring-2 ring-gray-900 dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all ${isSel ? 'ring-2 ring-foreground dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
                           >
                             <div className="w-6 h-6 rounded-full border-2 border-border" style={{ backgroundColor: o.colorHex }} />
                             <span>{o.name}</span>
@@ -250,10 +250,10 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                         <button
                           key={o.id}
                           onClick={() => selectOption(cat, o.id)}
-                          className={`w-full text-left p-3 rounded-lg text-sm transition-all flex items-center gap-3 ${isSel ? 'ring-2 ring-gray-900 dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
+                          className={`w-full text-left p-3 rounded-xl text-sm transition-all flex items-center gap-3 ${isSel ? 'ring-2 ring-foreground dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
                         >
                           {o.imageUrl && (
-                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                            <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-muted flex-shrink-0">
                               <Image src={o.imageUrl} alt={o.name ?? ''} fill className="object-cover" />
                             </div>
                           )}
@@ -274,11 +274,11 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
 
           {/* Montage option */}
           {vehicle?.montageAvailable && (
-            <div className="bg-card rounded-xl p-5 shadow-[var(--shadow-md)]">
-              <h3 className="font-display font-semibold mb-3 flex items-center gap-2"><Wrench className="h-4 w-4 text-green-600" /> Montage</h3>
+            <div className="bg-card rounded-3xl p-5 shadow-[var(--shadow-md)]">
+              <h3 className="font-display font-semibold mb-3 flex items-center gap-2"><Wrench className="h-4 w-4 text-brand-strong" /> Montage</h3>
               <button
                 onClick={() => setMontageSelected((s) => !s)}
-                className={`w-full text-left p-3 rounded-lg text-sm transition-all flex items-center justify-between ${montageSelected ? 'ring-2 ring-gray-900 dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
+                className={`w-full text-left p-3 rounded-xl text-sm transition-all flex items-center justify-between ${montageSelected ? 'ring-2 ring-foreground dark:ring-white bg-muted' : 'bg-muted/50 hover:bg-muted'}`}
               >
                 <div>
                   <div className="font-medium">{vehicle?.montageLabel ?? 'Montage chez un partenaire'}</div>
@@ -298,7 +298,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="bg-card rounded-xl overflow-hidden shadow-[var(--shadow-lg)]"
+              className="bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-lg)]"
             >
               <div className="relative aspect-[4/3] bg-muted">
                 <Image src={vehicle?.imageUrl ?? ''} alt={vehicle?.name ?? 'Véhicule'} fill className="object-cover" />
@@ -310,7 +310,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                 )}
               </div>
               <div className="p-6">
-                <h2 className="font-display text-2xl font-bold mb-1">{vehicle?.name ?? ''}</h2>
+                <h2 className="font-display text-2xl font-extrabold mb-1">{vehicle?.name ?? ''}</h2>
                 <p className="text-sm text-muted-foreground mb-4">{vehicle?.category} • {vehicle?.permitType}</p>
 
                 <div className="space-y-2 text-sm">
@@ -331,7 +331,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                     </div>
                   )}
                   <div className="flex justify-between items-start py-3 text-lg">
-                    <span className="font-display font-bold">Total</span>
+                    <span className="font-display font-extrabold">Total</span>
                     <span className="text-right">
                       <span className="font-mono font-bold block">{formatEuro(totalPrice)} € HT</span>
                       <span className="text-xs font-normal text-muted-foreground">soit {formatEuro(htToTtc(totalPrice))} € TTC</span>
@@ -341,7 +341,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
 
                 <button
                   onClick={() => setDevisOpen(true)}
-                  className="mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
+                  className="mt-4 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand text-brand-foreground font-medium hover:brightness-95 transition-colors"
                 >
                   Demander un devis <ChevronRight className="h-4 w-4" />
                 </button>

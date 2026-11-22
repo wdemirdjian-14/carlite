@@ -18,16 +18,16 @@ export function ArticleList({ articles }: { articles: any[] }) {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gray-950 text-white">
+      <section className="bg-ink text-white">
         <div className="max-w-[1200px] mx-auto px-4 py-16">
           <SectionWrapper>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-                <Newspaper className="h-5 w-5 text-green-400" />
+              <div className="w-10 h-10 rounded-3xl bg-brand/20 flex items-center justify-center">
+                <Newspaper className="h-5 w-5 text-brand" />
               </div>
-              <span className="text-sm text-green-400 font-medium uppercase tracking-wider">Blog & Actualités</span>
+              <span className="text-sm text-brand font-medium uppercase tracking-wider">Blog & Actualités</span>
             </div>
-            <h1 className="font-display text-3xl md:text-5xl font-bold tracking-tight mb-3">Articles</h1>
+            <h1 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-3">Articles</h1>
             <p className="text-gray-400 max-w-lg text-lg">Restez informé sur la mobilité électrique, les quadricycles, la réglementation et bien plus.</p>
           </SectionWrapper>
         </div>
@@ -42,7 +42,7 @@ export function ArticleList({ articles }: { articles: any[] }) {
                 <div className="grid md:grid-cols-2">
                   <div className="relative aspect-[16/10] md:aspect-auto">
                     <Image src={featured?.imageUrl ?? ''} alt={featured?.title ?? ''} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-green-500 text-white text-xs font-bold uppercase">
+                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-brand text-brand-foreground text-xs font-bold uppercase">
                       À la une
                     </div>
                   </div>
@@ -51,11 +51,11 @@ export function ArticleList({ articles }: { articles: any[] }) {
                       <span className="px-2 py-1 rounded-md bg-muted text-xs font-medium">{featured?.category}</span>
                       <span className="flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3 w-3" /> {featured?.readTime} min</span>
                     </div>
-                    <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    <h2 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight mb-3 group-hover:text-brand-strong dark:group-hover:text-brand transition-colors">
                       {featured?.title}
                     </h2>
                     <p className="text-muted-foreground mb-4 line-clamp-3">{featured?.excerpt}</p>
-                    <div className="flex items-center gap-2 text-sm font-medium text-green-600 dark:text-green-400">
+                    <div className="flex items-center gap-2 text-sm font-medium text-brand-strong dark:text-brand">
                       Lire l&apos;article <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -75,7 +75,7 @@ export function ArticleList({ articles }: { articles: any[] }) {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 activeCategory === cat
-                  ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+                  ? 'bg-ink text-white dark:bg-white dark:text-gray-900'
                   : 'bg-muted hover:bg-muted/80 text-muted-foreground'
               }`}
             >
@@ -99,16 +99,16 @@ export function ArticleList({ articles }: { articles: any[] }) {
                 transition={{ delay: i * 0.08, duration: 0.5 }}
               >
                 <Link href={`/articles/${article?.slug ?? ''}`}>
-                  <div className="group bg-card rounded-xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
+                  <div className="group bg-card rounded-3xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
                     <div className="relative aspect-[16/10] bg-muted">
                       <Image src={article?.imageUrl ?? ''} alt={article?.title ?? ''} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="px-2 py-0.5 rounded-md bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-medium">{article?.category}</span>
+                        <span className="px-2 py-0.5 rounded-md bg-brand/10 text-brand-strong dark:text-brand text-xs font-medium">{article?.category}</span>
                         <span className="flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3 w-3" /> {article?.readTime} min</span>
                       </div>
-                      <h3 className="font-display font-bold text-lg mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2">{article?.title}</h3>
+                      <h3 className="font-display font-extrabold text-lg mb-2 group-hover:text-brand-strong dark:group-hover:text-brand transition-colors line-clamp-2">{article?.title}</h3>
                       <p className="text-sm text-muted-foreground mb-3 line-clamp-3 flex-1">{article?.excerpt}</p>
                       {article?.tags?.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-auto">

@@ -166,7 +166,7 @@ export function QuickStock({ categories }: { categories: Cat[] }) {
     if (!presignRes.ok) throw new Error('presign');
     const { uploadUrl, publicUrl } = await presignRes.json();
     const headers: Record<string, string> = { 'Content-Type': blob.type };
-    const u = new URL(uploadUrl);
+    const u = new URL(uploadUrl, window.location.origin);
     if ((u.searchParams.get('X-Amz-SignedHeaders') ?? '').includes('content-disposition')) {
       headers['Content-Disposition'] = 'attachment';
     }

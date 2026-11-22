@@ -1,166 +1,123 @@
-'use client';
-import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Battery, Gauge, Zap, Car, Weight, Shield, ArrowRight, Settings, Users, Ruler, FileText, ShoppingBag } from 'lucide-react';
-import { SectionWrapper } from '@/components/section-wrapper';
+import { Battery, Gauge, Zap, Weight, Shield, Settings2, Users, Ruler, FileText, Plug, ChevronLeft, Wrench } from 'lucide-react';
+import { Gallery } from '@/components/site/gallery';
+import { PartCard, StockDot } from '@/components/site/part-card';
+import { RequestActions } from '@/components/site/request-actions';
 import { PriceTag } from '@/components/price-tag';
-import { StockBadge } from '@/components/stock-badge';
 import { euroHT } from '@/lib/pricing';
-import { LeadModal } from '@/components/lead-modal';
-
-import { useState } from 'react';
+import { partType } from '@/lib/parts';
 
 export function VehicleDetail({ vehicle, compatibleParts = [] }: { vehicle: any; compatibleParts?: any[] }) {
   const v = vehicle ?? {};
-  const parts = compatibleParts ?? [];
-  const [leadOpen, setLeadOpen] = useState(false);
+  const price = v.promo?.discountedPrice > 0 ? v.promo.discountedPrice : v.basePrice;
   const specs = [
-    { icon: Battery, label: 'Autonomie', value: `${v?.range ?? 0} km` },
-    { icon: Gauge, label: 'Vitesse max', value: `${v?.topSpeed ?? 0} km/h` },
-    { icon: Zap, label: 'Puissance moteur', value: v?.motorPower || '-' },
-    { icon: Battery, label: 'Batterie', value: v?.battery ?? '' },
-    { icon: Users, label: 'Places', value: `${v?.seats ?? 2}` },
-    { icon: Weight, label: 'Poids', value: `${v?.weight ?? 0} kg` },
-    { icon: Ruler, label: 'Dimensions', value: v?.dimensions || '-' },
-    { icon: FileText, label: 'Permis', value: v?.permitType || 'Sans permis' },
-    { icon: Settings, label: 'Charge', value: v?.chargeTime ?? '' },
-    { icon: Shield, label: 'Garantie', value: v?.warranty ?? '2 ans' },
-  ];
+    { Icon: Battery, label: 'Autonomie', value: v.range > 0 ? `${v.range} km` : null },
+    { Icon: Gauge, label: 'Vitesse max', value: v.topSpeed > 0 ? `${v.topSpeed} km/h` : null },
+    { Icon: Zap, label: 'Moteur', value: v.motorPower || null },
+    { Icon: Battery, label: 'Batterie', value: v.battery || null },
+    { Icon: Users, label: 'Places', value: v.seats },
+    { Icon: Weight, label: 'Poids', value: v.weight ? `${v.weight} kg` : null },
+    { Icon: Ruler, label: 'Dimensions', value: v.dimensions || null },
+    { Icon: FileText, label: 'Permis', value: v.permitType || 'Sans permis' },
+    { Icon: Plug, label: 'Recharge', value: v.chargeTime || null },
+    { Icon: Shield, label: 'Garantie', value: v.warranty || null },
+  ].filter((s) => s.value !== null && s.value !== '');
 
   return (
-    <div>
-      <section className="bg-gray-950 text-white">
-        <div className="max-w-[1200px] mx-auto px-4 py-16">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <div className="text-xs font-medium text-green-400 uppercase tracking-wider mb-2">{v?.category ?? ''}</div>
-              <h1 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-4">{v?.name ?? ''}</h1>
-              <p className="text-gray-300 text-lg mb-6">{v?.tagline ?? ''}</p>
-              <p className="text-gray-400 mb-8">{v?.description ?? ''}</p>
-              <div className="flex flex-wrap gap-4">
-                <Link href={`/configurateur?vehicule=${v?.slug ?? ''}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-gray-900 font-medium hover:bg-gray-100 transition-colors">
-                  Configurer <Settings className="h-4 w-4" />
-                </Link>
-                <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white/10 text-white font-medium hover:bg-white/20 transition-colors">
-                  Demander un essai
-                </Link>
-                <button onClick={() => setLeadOpen(true)} className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors">
-                  Être rappelé pour ce produit
-                </button>
-              </div>
-              <div className="mt-6">
-                {v?.promo ? (
-                  <div>
-                    <div className="inline-block mb-1 px-2 py-1 rounded-md bg-rose-600 text-white text-xs font-semibold">{v.promo.badge}</div>
-                    <div className="text-sm text-gray-400 line-through">{euroHT(v?.basePrice)}</div>
-                    <PriceTag ht={v.promo.discountedPrice} prefix="à partir de" className="font-mono text-2xl font-bold text-rose-400" ttcClassName="text-gray-400" />
-                    {v?.promo?.description && <p className="text-sm text-gray-300 mt-2 max-w-md">{v.promo.description}</p>}
-                  </div>
-                ) : (
-                  <PriceTag ht={v?.basePrice} prefix="à partir de" className="font-mono text-2xl font-bold text-green-400" ttcClassName="text-gray-400" />
-                )}
-              </div>
-              <div className="mt-4"><StockBadge status={v?.stockStatus} /></div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-800">
-                <Image src={v?.imageUrl ?? ''} alt={v?.name ?? 'Véhicule CARLITE'} fill className="object-cover" priority />
-              </div>
-            </motion.div>
+    <div className="max-w-[1240px] mx-auto px-4 pt-4 lg:pt-8">
+      <Link href="/vehicules" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
+        <ChevronLeft className="h-4 w-4" /> Véhicules neufs
+      </Link>
+      <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6 lg:gap-12">
+        <Gallery
+          images={[v.imageUrl, ...(v.gallery ?? [])]}
+          alt={v.name}
+          badge={
+            <span className="flex gap-1.5">
+              <span className="px-3 py-1 rounded-full bg-background/90 text-xs font-semibold">{v.permitType}</span>
+              {v.promo && <span className="px-3 py-1 rounded-full bg-rose-600 text-white text-xs font-semibold">{v.promo.badge}</span>}
+            </span>
+          }
+        />
+        <div className="lg:py-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-brand-strong">{v.category}</p>
+          <h1 className="font-display text-4xl sm:text-5xl font-extrabold tracking-tight leading-[0.95] mt-2">{v.name}</h1>
+          {v.tagline && <p className="text-lg text-muted-foreground mt-3">{v.tagline}</p>}
+          <div className="mt-3"><StockDot status={v.stockStatus} className="text-sm" /></div>
+
+          <div className="mt-5 p-5 rounded-3xl bg-muted">
+            {v.promo && v.basePrice > price && <p className="text-sm text-muted-foreground line-through">{euroHT(v.basePrice)}</p>}
+            <PriceTag ht={price} prefix={price > 0 ? 'à partir de' : undefined} className={`font-display text-3xl font-extrabold tracking-tight ${v.promo ? 'text-rose-600' : ''}`} />
+            {v.promo?.description && <p className="text-sm mt-3 whitespace-pre-line">{v.promo.description}</p>}
+            {v.montageAvailable && (
+              <p className="mt-3 flex items-center gap-2 text-sm"><Wrench className="h-4 w-4 text-brand-strong" /> {v.montageLabel || 'Montage chez un partenaire'}{v.montagePrice > 0 && ` : ${euroHT(v.montagePrice)}`}</p>
+            )}
+          </div>
+
+          <div className="mt-5 space-y-2">
+            {v.hasConfigurator && (
+              <Link href={`/configurateur?vehicule=${v.slug}`} className="w-full h-12 sm:h-14 inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-foreground font-semibold hover:bg-foreground hover:text-background transition-colors">
+                <Settings2 className="h-5 w-5" /> Configurer mon {v.name}
+              </Link>
+            )}
+            <RequestActions
+              label="Devis / essai"
+              type="quote"
+              title={`Devis ${v.name}`}
+              subtitle="Un conseiller vous rappelle pour un devis personnalisé ou un essai."
+              subject={`Véhicule neuf – ${v.name}`}
+              productName={v.name}
+              context={`Prix à partir de ${euroHT(v.basePrice)}${v.category ? ` – ${v.category}` : ''}\nLien : /vehicules/${v.slug}`}
+            />
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="max-w-[1200px] mx-auto px-4 py-16">
-        <SectionWrapper>
-          <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight mb-8 text-center">Caractéristiques techniques</h2>
-        </SectionWrapper>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {specs?.map?.((s: any, i: number) => {
-            const Icon = s?.icon ?? Zap;
-            return (
-              <SectionWrapper key={i} delay={i * 0.05}>
-                <div className="p-4 rounded-xl bg-muted/50 text-center hover:bg-gray-900 hover:text-white transition-all duration-300 group">
-                  <Icon className="h-5 w-5 text-green-600 group-hover:text-green-400 mx-auto mb-2" />
-                  <div className="font-mono font-semibold text-sm">{s?.value}</div>
-                  <div className="text-xs text-muted-foreground group-hover:text-gray-400 mt-1">{s?.label}</div>
-                </div>
-              </SectionWrapper>
-            );
-          }) ?? null}
-        </div>
-      </section>
-
-      {(v?.colors?.length ?? 0) > 0 && (
-        <section className="bg-muted/30">
-          <div className="max-w-[1200px] mx-auto px-4 py-16">
-            <SectionWrapper>
-              <h2 className="font-display text-2xl font-bold tracking-tight mb-6">Couleurs disponibles</h2>
-            </SectionWrapper>
-            <div className="flex flex-wrap gap-4">
-              {v?.colors?.map?.((c: any) => (
-                <div key={c?.id} className="flex items-center gap-3 px-4 py-2 rounded-lg bg-card shadow-[var(--shadow-sm)]">
-                  <div className="w-8 h-8 rounded-full border-2 border-border" style={{ backgroundColor: c?.hex ?? '#ccc' }} />
-                  <div>
-                    <div className="text-sm font-medium">{c?.name ?? ''}</div>
-                    {(c?.price ?? 0) > 0 && <div className="text-xs text-muted-foreground">+{euroHT(c?.price)}</div>}
-                  </div>
-                </div>
-              )) ?? null}
+      <section className="mt-12">
+        <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">Fiche technique</h2>
+        <dl className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          {specs.map(({ Icon, label, value }) => (
+            <div key={label} className="p-4 rounded-2xl border border-border">
+              <dt className="flex items-center gap-1.5 text-xs text-muted-foreground"><Icon className="h-3.5 w-3.5" /> {label}</dt>
+              <dd className="font-semibold mt-1 text-sm">{value}</dd>
             </div>
-          </div>
+          ))}
+        </dl>
+      </section>
+
+      {v.description && v.description !== v.name && (
+        <section className="mt-12 max-w-3xl">
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">Présentation</h2>
+          <p className="mt-3 text-[15px] leading-relaxed text-foreground/85 whitespace-pre-line">{v.description}</p>
         </section>
       )}
 
-      {parts.length > 0 && (
-        <section className="max-w-[1200px] mx-auto px-4 py-16">
-          <SectionWrapper>
-            <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight mb-2">Pièces détachées & accessoires compatibles</h2>
-            <p className="text-muted-foreground mb-8">Sélection de pièces et accessoires adaptés à votre {v?.name ?? 'véhicule'}.</p>
-          </SectionWrapper>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {parts.map((a: any, i: number) => (
-              <SectionWrapper key={a?.id ?? i} delay={i * 0.05}>
-                <Link href="/accessoires" className="group block bg-card rounded-xl overflow-hidden shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-all hover:-translate-y-1">
-                  <div className="relative aspect-square bg-muted">
-                    <Image src={a?.imageUrl ?? ''} alt={a?.name ?? 'Pièce détachée'} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                  </div>
-                  <div className="p-4">
-                    <div className="text-xs font-medium text-primary uppercase tracking-wider mb-1">{a?.category ?? ''}</div>
-                    <h3 className="font-display font-bold text-sm mb-1 truncate">{a?.name ?? ''}</h3>
-                    <div className="flex items-center justify-between">
-                      <PriceTag ht={a?.price} className="font-mono font-bold text-primary text-sm" showTtc={false} />
-                      <ShoppingBag className="h-4 w-4 text-muted-foreground" />
-                    </div>
-                  </div>
-                </Link>
-              </SectionWrapper>
+      {(v.colors?.length ?? 0) > 0 && (
+        <section className="mt-12">
+          <h2 className="font-display text-2xl font-extrabold tracking-tight">Couleurs</h2>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {v.colors.map((c: any) => (
+              <span key={c.id} className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full border border-border">
+                <span className="h-7 w-7 rounded-full border border-border" style={{ backgroundColor: c.hex || '#ccc' }} />
+                <span className="text-sm font-medium">{c.name}</span>
+                {c.price > 0 && <span className="text-xs text-muted-foreground">+{euroHT(c.price)}</span>}
+              </span>
             ))}
           </div>
         </section>
       )}
 
-      <section className="max-w-[1200px] mx-auto px-4 py-16 text-center">
-        <SectionWrapper>
-          <h2 className="font-display text-2xl font-bold tracking-tight mb-4">Prêt à personnaliser ?</h2>
-          <p className="text-muted-foreground mb-6">Utilisez notre configurateur pour adapter votre CARLITE à vos besoins : couleurs, plateaux arrière, équipements.</p>
-          <Link href={`/configurateur?vehicule=${v?.slug ?? ''}`} className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors">
-            Accéder au configurateur <ArrowRight className="h-4 w-4" />
-          </Link>
-        </SectionWrapper>
-      </section>
-
-      <LeadModal
-        open={leadOpen}
-        onClose={() => setLeadOpen(false)}
-        type="information"
-        title="Être rappelé pour ce produit"
-        subtitle="Laissez-nous vos coordonnées, un conseiller vous rappelle pour tout renseignement."
-        subject={`Renseignement – ${v?.name ?? 'Véhicule'}`}
-        productName={v?.name ?? ''}
-        context={`Prix à partir de ${euroHT(v?.basePrice)}${v?.category ? ` – ${v.category}` : ''}`}
-      />
+      {compatibleParts.length > 0 && (
+        <section className="mt-16">
+          <div className="flex items-end justify-between mb-4">
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">Pièces compatibles</h2>
+            <Link href={`/accessoires?veh=${v.id}`} className="text-sm font-semibold underline underline-offset-4">Tout voir</Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            {compatibleParts.slice(0, 8).map((p: any) => <PartCard key={p.id} part={p} label={partType(p)} />)}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
