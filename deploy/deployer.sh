@@ -121,6 +121,7 @@ case "${ACTION:-}" in
 
     log "Mise à jour du schéma de la base (refusée si elle détruirait des données)"
     ( cd "$DIR" && npx prisma db push --skip-generate ) || die "schéma refusé : le site en ligne n'a pas changé"
+    ( cd "$DIR" && npm run -s maj:contenu ) || die "corrections de contenu en échec : le site en ligne n'a pas changé"
 
     PREV="$(current_release)"
     log "Bascule : $PREV -> $DIR"

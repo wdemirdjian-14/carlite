@@ -282,7 +282,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
               >
                 <div>
                   <div className="font-medium">{vehicle?.montageLabel ?? 'Montage chez un partenaire'}</div>
-                  <div className="text-xs text-muted-foreground">Livraison en kit avec montage assuré par un partenaire agréé.</div>
+                  <div className="text-xs text-muted-foreground">Le véhicule est livré en kit non monté : assemblage par un partenaire monteur en France.</div>
                 </div>
                 <span className="text-xs font-mono ml-2 whitespace-nowrap">{(vehicle?.montagePrice ?? 0) > 0 ? `+${(vehicle?.montagePrice ?? 0)?.toLocaleString?.('fr-FR')} € HT` : 'Offert'}</span>
               </button>
@@ -345,6 +345,7 @@ export function Configurator({ vehicles }: { vehicles: any[] }) {
                 >
                   Demander un devis <ChevronRight className="h-4 w-4" />
                 </button>
+                <p className="mt-3 text-xs text-muted-foreground text-center">Véhicule vendu en kit, non monté. Nous vous mettons en relation avec un partenaire monteur partout en France.</p>
               </div>
             </motion.div>
           </div>

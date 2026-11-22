@@ -3,6 +3,7 @@ import { Battery, Gauge, Zap, Weight, Shield, Settings2, Users, Ruler, FileText,
 import { Gallery } from '@/components/site/gallery';
 import { PartCard, StockDot } from '@/components/site/part-card';
 import { RequestActions } from '@/components/site/request-actions';
+import { KitNotice } from '@/components/site/kit-notice';
 import { PriceTag } from '@/components/price-tag';
 import { euroHT } from '@/lib/pricing';
 import { partType } from '@/lib/parts';
@@ -54,6 +55,8 @@ export function VehicleDetail({ vehicle, compatibleParts = [] }: { vehicle: any;
             )}
           </div>
 
+          <KitNotice vehicleName={v.name} className="mt-5" />
+
           <div className="mt-5 space-y-2">
             {v.hasConfigurator && (
               <Link href={`/configurateur?vehicule=${v.slug}`} className="w-full h-12 sm:h-14 inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-foreground font-semibold hover:bg-foreground hover:text-background transition-colors">
@@ -61,13 +64,13 @@ export function VehicleDetail({ vehicle, compatibleParts = [] }: { vehicle: any;
               </Link>
             )}
             <RequestActions
-              label="Devis / essai"
+              label="Demander un devis"
               type="quote"
               title={`Devis ${v.name}`}
-              subtitle="Un conseiller vous rappelle pour un devis personnalisé ou un essai."
+              subtitle="Un conseiller vous rappelle avec un devis personnalisé (véhicule en kit, mise en relation avec un partenaire monteur)."
               subject={`Véhicule neuf – ${v.name}`}
               productName={v.name}
-              context={`Prix à partir de ${euroHT(v.basePrice)}${v.category ? ` – ${v.category}` : ''}\nLien : /vehicules/${v.slug}`}
+              context={`Véhicule en kit non monté\nPrix à partir de ${euroHT(v.basePrice)}${v.category ? ` – ${v.category}` : ''}\nLien : /vehicules/${v.slug}`}
             />
           </div>
         </div>

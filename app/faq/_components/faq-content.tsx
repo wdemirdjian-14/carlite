@@ -26,8 +26,8 @@ const faqs = [
     a: 'Oui ! CARLITE propose de nombreuses options de personnalisation : choix de couleurs, plateaux arrière (benne, caisse), configurations de sièges (de 2 à 9 places pour l\'E-SAM), et adaptations sur mesure pour des besoins spécifiques (PMR, usage professionnel, etc.).',
   },
   {
-    q: 'Où peut-on essayer les véhicules ?',
-    a: 'Vous pouvez essayer nos véhicules au Garage du Centre, 121 bd Victor Hugo, 92100 Boulogne-Billancourt. Prenez rendez-vous via notre formulaire de contact ou appelez-nous au 06 86 26 16 16.',
+    q: 'Les véhicules neufs sont-ils livrés montés ?',
+    a: 'Non : nos véhicules neufs sont vendus en kit, non montés. Pour l\'assemblage, nous vous mettons en relation avec l\'un de nos partenaires monteurs partout en France. Contactez-nous via le formulaire ou au 06 13 930 930 en indiquant votre ville.',
   },
   {
     q: 'Quels sont les coûts d\'entretien ?',

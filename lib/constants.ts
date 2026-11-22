@@ -31,7 +31,6 @@ export const SECONDARY_LINKS = [
 export const COMPANY_INFO = {
   name: 'SAS CARLITE',
   address: '80 rue Marcel Bontemps, 92100 Boulogne-Billancourt',
-  showroom: 'Garage du Centre, 121 bd Victor Hugo, 92100 Boulogne-Billancourt',
   phone: '06 13 930 930',
   phoneHref: 'tel:+33613930930',
   email: 'contact@carlite.fr',

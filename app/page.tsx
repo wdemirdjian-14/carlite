@@ -119,7 +119,7 @@ export default async function HomePage() {
         <div className="flex w-max animate-marquee gap-10 font-display text-xl sm:text-2xl font-extrabold tracking-tight text-foreground/25 whitespace-nowrap">
           {[0, 1].map((k) => (
             <div key={k} className="flex gap-10" aria-hidden={k === 1}>
-              {['Sans permis dès 14 ans', 'Golfettes', 'Utilitaires', 'Batteries lithium', 'Chargeurs', 'Éclairage LED', 'Occasions révisées', 'Entretien atelier', 'Montage partenaire'].map((t) => (
+              {['Sans permis dès 14 ans', 'Golfettes', 'Utilitaires', 'Batteries lithium', 'Chargeurs', 'Éclairage LED', 'Occasions révisées', 'Entretien atelier', 'Kits à monter'].map((t) => (
                 <span key={t} className="flex items-center gap-10">
                   {t} <Zap className="h-5 w-5 text-brand-strong/60" />
                 </span>
@@ -195,6 +195,7 @@ export default async function HomePage() {
         {vehicles.length > 0 && (
           <section className="pt-14 sm:pt-20">
             <SectionHead kicker="Véhicules neufs" title="La gamme CARLITE" href="/vehicules" cta="Tous les modèles" />
+            <p className="-mt-2 mb-5 text-sm text-muted-foreground max-w-2xl">Vendus en kit, non montés : nous vous mettons en relation avec un partenaire monteur partout en France.</p>
             <div className="grid md:grid-cols-2 gap-4">
               {vehicles.slice(0, 4).map((v: any) => (
                 <Link key={v.id} href={`/vehicules/${v.slug}`} className="group relative overflow-hidden rounded-3xl bg-muted aspect-[4/3] sm:aspect-[16/10]">
@@ -203,6 +204,7 @@ export default async function HomePage() {
                   <div className="absolute top-4 left-4 flex gap-1.5">
                     <span className="px-3 py-1 rounded-full bg-background/90 text-xs font-semibold">{v.permitType}</span>
                     {v.category && <span className="px-3 py-1 rounded-full bg-brand text-brand-foreground text-xs font-semibold">{v.category}</span>}
+                    <span className="px-3 py-1 rounded-full bg-ink/80 text-white text-xs font-semibold">En kit</span>
                   </div>
                   <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white">
                     <p className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight">{v.name}</p>
@@ -251,7 +253,7 @@ export default async function HomePage() {
               {[
                 { Icon: Wrench, t: 'Atelier intégré', s: 'Diagnostic, réparation, entretien de flotte.' },
                 { Icon: ShieldCheck, t: 'Pièces vérifiées', s: 'Testées par nos techniciens avant expédition.' },
-                { Icon: Truck, t: 'Partout en France', s: 'Expédition des pièces, montage chez nos partenaires.' },
+                { Icon: Truck, t: 'Partout en France', s: 'Expédition des pièces et des kits, partenaires monteurs dans toute la France.' },
                 { Icon: Sparkles, t: 'Sur mesure', s: 'Plateaux, bennes, adaptations pro.' },
               ].map(({ Icon, t, s }) => (
                 <div key={t} className="p-5 rounded-3xl border border-border bg-card">

@@ -160,6 +160,7 @@ sudo -u "$APP_USER" env PATH="$NODE_DIR/bin:/usr/bin:/bin" NODE_OPTIONS=--max-ol
   npm ci --no-audit --no-fund
   npx prisma db push --skip-generate          # refuse toute perte de données
   npm run import:contenu                       # catalogue manquant + images en local (non destructif)
+  npm run maj:contenu                          # corrections éditoriales ponctuelles (idempotent)
   npm run build"
 psql "$PSQL_URL" -c 'SELECT (SELECT count(*) FROM "Accessory") AS pieces, (SELECT count(*) FROM "Vehicle") AS vehicules, (SELECT count(*) FROM "UsedVehicle") AS occasions, (SELECT count(*) FROM "Article") AS articles, (SELECT count(*) FROM "User" WHERE role='"'"'admin'"'"') AS admins;'
 

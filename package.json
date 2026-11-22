@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit",
     "import:contenu": "tsx --require dotenv/config scripts/import-contenu.ts",
     "postinstall": "prisma generate",
-    "admin:creer": "tsx --require dotenv/config scripts/creer-admin.ts"
+    "admin:creer": "tsx --require dotenv/config scripts/creer-admin.ts",
+    "maj:contenu": "tsx --require dotenv/config scripts/maj-contenu.ts"
   },
   "prisma": {
     "seed": "tsx --require dotenv/config scripts/safe-seed.ts"

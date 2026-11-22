@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Battery, Gauge, Users, Wrench, ArrowUpRight, Settings2 } from 'lucide-react';
+import { Battery, Gauge, Users, ArrowUpRight, Settings2, PackageOpen } from 'lucide-react';
+import { KitNotice } from '@/components/site/kit-notice';
 import { PageLayout } from '@/components/page-layout';
 import { getVisibleVehicles } from '@/lib/catalog';
 import { formatEuro } from '@/lib/pricing';
@@ -8,7 +9,7 @@ import { formatEuro } from '@/lib/pricing';
 export const dynamic = 'force-dynamic';
 export const metadata = {
   title: 'Véhicules électriques neufs',
-  description: 'Quadricycles sans permis, golfettes et utilitaires électriques neufs CARLITE, livrés en kit avec montage en option chez nos partenaires.',
+  description: 'Quadricycles sans permis, golfettes et utilitaires électriques neufs CARLITE, vendus en kit non monté, assemblage par nos partenaires monteurs partout en France.',
 };
 
 export default async function VehiculesPage() {
@@ -18,12 +19,9 @@ export default async function VehiculesPage() {
       <div className="max-w-[1240px] mx-auto px-4 pt-6 lg:pt-10">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-strong">Véhicules neufs</p>
         <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[0.95] mt-2">Choisissez votre électrique.</h1>
-        <p className="text-muted-foreground mt-3 max-w-xl">Sans permis, golfettes, utilitaires. Chaque modèle se configure en ligne et se monte chez un partenaire agréé.</p>
+        <p className="text-muted-foreground mt-3 max-w-xl">Sans permis, golfettes, utilitaires. Chaque modèle se configure en ligne ; il est livré en kit et assemblé par un partenaire monteur près de chez vous.</p>
 
-        <div className="mt-6 flex items-start gap-3 rounded-3xl bg-muted p-4 sm:p-5 max-w-3xl">
-          <Wrench className="h-5 w-5 shrink-0 mt-0.5 text-brand-strong" />
-          <p className="text-sm">Nos véhicules sont livrés en kit, avec <span className="font-semibold">montage en option chez nos partenaires</span>.</p>
-        </div>
+        <KitNotice className="mt-6 max-w-3xl" />
 
         {vehicles.length === 0 ? (
           <p className="py-20 text-center text-muted-foreground">Aucun véhicule disponible pour le moment.</p>
@@ -38,6 +36,7 @@ export default async function VehiculesPage() {
                     <div className="absolute top-4 left-4 flex gap-1.5">
                       <span className="px-3 py-1 rounded-full bg-background/90 text-xs font-semibold">{v.permitType}</span>
                       {v.category && <span className="px-3 py-1 rounded-full bg-brand text-brand-foreground text-xs font-semibold">{v.category}</span>}
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-ink/80 text-white text-xs font-semibold"><PackageOpen className="h-3.5 w-3.5" /> En kit</span>
                       {v.promo && <span className="px-3 py-1 rounded-full bg-rose-600 text-white text-xs font-semibold">{v.promo.badge}</span>}
                     </div>
                     <span className="absolute top-4 right-4 h-10 w-10 rounded-full bg-background/90 flex items-center justify-center group-hover:rotate-45 transition-transform">

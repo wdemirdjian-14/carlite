@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { COMPANY_INFO, NAV_LINKS, SECONDARY_LINKS } from '@/lib/constants';
-import { Phone, Mail, MapPin, Store } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -22,7 +22,6 @@ export function Footer() {
               <a href={COMPANY_INFO.phoneHref} className="flex items-center gap-2 hover:text-white"><Phone className="h-4 w-4 text-brand" /> {COMPANY_INFO.phone}</a>
               <a href={`mailto:${COMPANY_INFO.email}`} className="flex items-center gap-2 hover:text-white"><Mail className="h-4 w-4 text-brand" /> {COMPANY_INFO.email}</a>
               <span className="flex items-start gap-2"><MapPin className="h-4 w-4 text-brand shrink-0 mt-0.5" /> {COMPANY_INFO.address}</span>
-              <span className="flex items-start gap-2"><Store className="h-4 w-4 text-brand shrink-0 mt-0.5" /> Showroom : {COMPANY_INFO.showroom}</span>
             </div>
           </div>
           <div>
