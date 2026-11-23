@@ -14,17 +14,26 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 export const metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL || 'http://localhost:3000'),
   title: {
-    default: 'CARLITE - Quadricycles Électriques 100% Français',
+    default: 'CARLITE – Pièces détachées et véhicules électriques (quadricycles, golfettes, utilitaires)',
     template: '%s | CARLITE',
   },
-  description: "CARLITE, spécialiste français des véhicules électriques : quadricycles légers sans permis, voiturettes de golf et utilitaires électriques. Plus de 20 ans d'expertise.",
+  description:
+    "Pièces détachées pour véhicules électriques (chargeurs, batteries lithium, convertisseurs, éclairage LED), quadricycles sans permis, golfettes et utilitaires électriques neufs en kit et d'occasion. Plus de 20 ans d'expertise.",
+  alternates: { canonical: '/' },
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
   },
   openGraph: {
+    type: 'website',
+    locale: 'fr_FR',
+    siteName: 'CARLITE',
     images: ['/og-image.png'],
   },
+  twitter: { card: 'summary_large_image' },
+  // Balise de vérification Google Search Console / Merchant Center (facultative si le domaine est vérifié par DNS)
+  ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' } },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

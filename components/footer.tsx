@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { COMPANY_INFO, NAV_LINKS, SECONDARY_LINKS } from '@/lib/constants';
+import { COMPANY_INFO, NAV_LINKS, SECONDARY_LINKS, LEGAL_LINKS } from '@/lib/constants';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 export function Footer() {
@@ -44,7 +44,12 @@ export function Footer() {
         </div>
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-2 justify-between text-xs text-white/40">
           <span>© {new Date().getFullYear()} {COMPANY_INFO.name} — SIREN {COMPANY_INFO.siren}</span>
-          <span>Prix affichés HT, TVA 20 % en sus.</span>
+          <span className="flex flex-wrap gap-x-4 gap-y-1">
+            {LEGAL_LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className="hover:text-white">{l.label}</Link>
+            ))}
+            <span>Prix affichés HT, TVA 20 % en sus.</span>
+          </span>
         </div>
       </div>
     </footer>

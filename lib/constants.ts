@@ -28,6 +28,11 @@ export const SECONDARY_LINKS = [
   { href: '/contact', label: 'Contact' },
 ] as const;
 
+export const LEGAL_LINKS = [
+  { href: '/conditions-generales-de-vente', label: 'CGV, livraison & retours' },
+  { href: '/mentions-legales', label: 'Mentions légales' },
+] as const;
+
 export const COMPANY_INFO = {
   name: 'SAS CARLITE',
   address: '80 rue Marcel Bontemps, 92100 Boulogne-Billancourt',

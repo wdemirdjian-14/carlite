@@ -10,6 +10,7 @@ export const metadata = {
   title: 'Pièces détachées pour véhicules électriques',
   description:
     'Chargeurs, batteries lithium, convertisseurs DC/DC, éclairage LED, afficheurs : recherchez parmi les pièces détachées CARLITE pour quadricycles, golfettes et utilitaires électriques.',
+  alternates: { canonical: '/accessoires' },
 };
 
 export default async function AccessoiresPage() {

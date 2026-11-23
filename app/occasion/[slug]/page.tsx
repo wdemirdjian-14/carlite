@@ -10,6 +10,8 @@ import { prisma } from '@/lib/prisma';
 import { getVisibleUsedVehicles, plain } from '@/lib/catalog';
 import { getPromoMaps } from '@/lib/promotions';
 import { euroHT, formatEuro } from '@/lib/pricing';
+import { JsonLd } from '@/components/site/json-ld';
+import { absUrl, breadcrumbJsonLd, usedVehicleJsonLd } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +32,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${v.name} d'occasion`,
     description: `${v.name} — ${v.year}, ${formatEuro(v.mileage)} km, ${v.condition}. ${v.description}`.slice(0, 160),
-    openGraph: { images: v.imageUrl ? [v.imageUrl] : undefined },
+    alternates: { canonical: `/occasion/${v.slug}` },
+    openGraph: { title: `${v.name} d'occasion`, url: `/occasion/${v.slug}`, images: v.imageUrl ? [absUrl(v.imageUrl)!] : undefined },
   };
 }
 
@@ -58,6 +61,7 @@ export default async function UsedPage({ params }: { params: { slug: string } })
 
   return (
     <PageLayout>
+      <JsonLd data={[usedVehicleJsonLd(v, price), breadcrumbJsonLd([{ name: 'Accueil', path: '/' }, { name: 'Occasions', path: '/occasion' }, { name: v.name, path: `/occasion/${v.slug}` }])]} />
       <div className="max-w-[1240px] mx-auto px-4 pt-4 lg:pt-8">
         <Link href="/occasion" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
           <ChevronLeft className="h-4 w-4" /> Occasions

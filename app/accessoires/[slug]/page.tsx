@@ -11,6 +11,8 @@ import { getVisibleParts, plain } from '@/lib/catalog';
 import { getPromoMaps } from '@/lib/promotions';
 import { euroHT } from '@/lib/pricing';
 import { partBrand, partCategory, partType, partVoltages, OTHER_CATEGORY } from '@/lib/parts';
+import { JsonLd } from '@/components/site/json-ld';
+import { absUrl, breadcrumbJsonLd, partJsonLd, priceTtc } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,10 +30,14 @@ async function load(slug: string) {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const part = await load(params.slug);
   if (!part) return { title: 'Pièce introuvable' };
+  const price = part.promo?.discountedPrice > 0 ? part.promo.discountedPrice : part.price;
+  const type = partType(part);
+  const lead = price > 0 ? `${priceTtc(price).replace('.', ',')} € TTC` : 'Prix sur devis';
   return {
-    title: part.name,
-    description: (part.description || part.name).slice(0, 160),
-    openGraph: { images: part.imageUrl ? [part.imageUrl] : undefined },
+    title: `${part.name} – ${type}`,
+    description: `${part.name} : ${lead}, ${part.stockStatus === 'available' ? 'en stock' : 'disponible sur commande'}. ${part.description && part.description !== part.name ? part.description : 'Pièce détachée pour quadricycle, golfette et utilitaire électrique.'}`.slice(0, 160),
+    alternates: { canonical: `/accessoires/${part.slug}` },
+    openGraph: { type: 'website', title: part.name, url: `/accessoires/${part.slug}`, images: part.imageUrl ? [absUrl(part.imageUrl)!] : undefined },
   };
 }
 
@@ -72,6 +78,7 @@ export default async function PartPage({ params }: { params: { slug: string } })
 
   return (
     <PageLayout>
+      <JsonLd data={[partJsonLd(part, price), breadcrumbJsonLd([{ name: 'Accueil', path: '/' }, { name: 'Pièces détachées', path: '/accessoires' }, { name: part.name, path: `/accessoires/${part.slug}` }])]} />
       <div className="max-w-[1240px] mx-auto px-4 pt-4 lg:pt-8">
         <Link href="/accessoires" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
           <ChevronLeft className="h-4 w-4" /> Pièces détachées

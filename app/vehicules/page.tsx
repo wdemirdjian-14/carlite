@@ -10,6 +10,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = {
   title: 'Véhicules électriques neufs',
   description: 'Quadricycles sans permis, golfettes et utilitaires électriques neufs CARLITE, vendus en kit non monté, assemblage par nos partenaires monteurs partout en France.',
+  alternates: { canonical: '/vehicules' },
 };
 
 export default async function VehiculesPage() {

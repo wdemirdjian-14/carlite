@@ -13,6 +13,8 @@ import { getFeaturedPromotions } from '@/lib/promotions';
 import { formatEuro } from '@/lib/pricing';
 import { partType } from '@/lib/parts';
 import { COMPANY_INFO } from '@/lib/constants';
+import { JsonLd } from '@/components/site/json-ld';
+import { organizationJsonLd } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,6 +48,7 @@ export default async function HomePage() {
 
   return (
     <PageLayout>
+      <JsonLd data={organizationJsonLd()} />
       {/* ===== HERO ===== */}
       <section className="px-2 sm:px-4 pt-2">
         <div className="relative max-w-[1400px] mx-auto overflow-hidden rounded-[2rem] bg-ink text-white">

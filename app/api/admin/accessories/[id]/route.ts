@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { cleanSlug } from '@/lib/slug';
 
 async function checkAdmin() {
   const session = await getServerSession(authOptions);
@@ -13,10 +14,15 @@ async function checkAdmin() {
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   try {
     if (!(await checkAdmin())) return NextResponse.json({ error: 'Non autorisé' }, { status: 403 });
-    const body = await request?.json?.();
+    const body = (await request?.json?.()) ?? {};
+    // Slug (URL de la fiche) toujours propre et court, même s'il est saisi ou collé à la main
+    if (typeof body.slug === 'string') {
+      body.slug = cleanSlug(body.slug) || cleanSlug(body.name ?? '') || undefined;
+      if (!body.slug) delete body.slug;
+    }
     const updated = await prisma.accessory.update({
       where: { id: params?.id },
-      data: body ?? {},
+      data: body,
     });
     return NextResponse.json(updated);
   } catch (error: any) {

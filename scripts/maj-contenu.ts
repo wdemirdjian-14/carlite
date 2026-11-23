@@ -2,8 +2,10 @@
  * Corrections éditoriales ponctuelles sur le contenu en base (idempotent, remplacements exacts).
  *   npm run maj:contenu
  * 2026-11 : retrait des mentions du showroom dans les articles (le showroom n'est plus ouvert au public).
+ * 2026-11 : URL de fiche (slug) trop longues raccourcies (une description avait été collée dans le slug).
  */
 import { PrismaClient } from '@prisma/client';
+import { cleanSlug } from '../lib/slug';
 
 const prisma = new PrismaClient();
 
@@ -35,6 +37,15 @@ async function main() {
       changed++;
     }
   }
+  // Slugs de pièces anormalement longs -> slug court tiré du nom (unique)
+  const longSlugs = (await prisma.accessory.findMany({ select: { id: true, name: true, slug: true } })).filter((a) => a.slug.length > 100);
+  for (const a of longSlugs) {
+    let slug = cleanSlug(a.name) || 'piece';
+    if (await prisma.accessory.findFirst({ where: { slug, NOT: { id: a.id } }, select: { id: true } })) slug = `${slug}-${a.id.slice(-6)}`;
+    await prisma.accessory.update({ where: { id: a.id }, data: { slug } });
+    console.log(`   URL raccourcie : « ${a.name} » -> /accessoires/${slug}`);
+  }
+
   const left = await prisma.article.findMany({
     where: { OR: [{ content: { contains: 'showroom', mode: 'insensitive' } }, { content: { contains: 'Victor Hugo', mode: 'insensitive' } }] },
     select: { slug: true },

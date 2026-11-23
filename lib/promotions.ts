@@ -45,7 +45,7 @@ export async function getFeaturedPromotions(): Promise<any[]> {
         if (product) { href = `/occasion/${product.slug}`; originalPrice = product.price; }
       } else if (p.targetType === 'accessory' && p.accessoryId) {
         product = await prisma.accessory.findUnique({ where: { id: p.accessoryId } });
-        if (product) { href = `/accessoires`; originalPrice = product.price; }
+        if (product) { href = `/accessoires/${product.slug}`; originalPrice = product.price; }
       }
       if (product) {
         result.push({

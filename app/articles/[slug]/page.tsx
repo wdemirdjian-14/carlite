@@ -10,7 +10,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   try {
     article = await prisma.article.findUnique({ where: { slug: params.slug } });
   } catch {}
-  return { title: article?.title ?? 'Article' };
+  if (!article) return { title: 'Article' };
+  return {
+    title: article.title,
+    description: (article.excerpt || article.title).slice(0, 160),
+    alternates: { canonical: `/articles/${article.slug}` },
+    openGraph: { type: 'article', title: article.title, url: `/articles/${article.slug}`, images: article.imageUrl ? [article.imageUrl] : undefined },
+  };
 }
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {

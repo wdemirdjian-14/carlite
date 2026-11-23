@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = {
   title: "Véhicules électriques d'occasion",
   description: "Quadricycles, voiturettes sans permis et golfettes électriques d'occasion, contrôlés et préparés par l'atelier CARLITE.",
+  alternates: { canonical: '/occasion' },
 };
 
 export default async function OccasionPage() {

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { cleanSlug } from '@/lib/slug';
 
 export async function POST(request: Request) {
   try {
@@ -17,15 +18,9 @@ export async function POST(request: Request) {
     if (!name?.trim()) {
       return NextResponse.json({ error: 'Le nom est obligatoire' }, { status: 400 });
     }
-    const cleanSlug = (input: string) => input
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
     const finalSlug = slug?.trim()
       ? cleanSlug(slug.trim())
-      : `${cleanSlug(name.trim()) || 'produit'}-${Date.now().toString(36)}`;
+      : `${cleanSlug(name.trim(), 70) || 'produit'}-${Date.now().toString(36)}`;
     const accessory = await prisma.accessory.create({
       data: {
         name: name?.trim(),

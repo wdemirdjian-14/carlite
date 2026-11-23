@@ -18,6 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/recharge`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/faq`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/conditions-generales-de-vente`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${base}/mentions-legales`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
   ];
   const [parts, used, vehicles] = await Promise.all([getVisibleParts(), getVisibleUsedVehicles(), getVisibleVehicles()]);
   let articles: { slug: string; updatedAt: Date }[] = [];
@@ -26,9 +28,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   } catch {}
   return [
     ...pages,
-    ...vehicles.map((v: any) => ({ url: `${base}/vehicules/${v.slug}`, lastModified: new Date(v.updatedAt), priority: 0.8 })),
-    ...used.map((v: any) => ({ url: `${base}/occasion/${v.slug}`, lastModified: new Date(v.updatedAt), priority: 0.7 })),
-    ...parts.map((p: any) => ({ url: `${base}/accessoires/${p.slug}`, lastModified: new Date(p.updatedAt), priority: 0.6 })),
-    ...articles.map((a) => ({ url: `${base}/articles/${a.slug}`, lastModified: a.updatedAt, priority: 0.5 })),
+    ...vehicles.map((v: any) => ({ url: `${base}/vehicules/${encodeURIComponent(v.slug)}`, lastModified: new Date(v.updatedAt), priority: 0.8 })),
+    ...used.map((v: any) => ({ url: `${base}/occasion/${encodeURIComponent(v.slug)}`, lastModified: new Date(v.updatedAt), priority: 0.7 })),
+    ...parts.map((p: any) => ({ url: `${base}/accessoires/${encodeURIComponent(p.slug)}`, lastModified: new Date(p.updatedAt), priority: 0.6 })),
+    ...articles.map((a) => ({ url: `${base}/articles/${encodeURIComponent(a.slug)}`, lastModified: a.updatedAt, priority: 0.5 })),
   ];
 }
