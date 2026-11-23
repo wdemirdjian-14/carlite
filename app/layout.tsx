@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           {children}
           <FloatingCallback />
-          <Toaster />
+          <Toaster position="top-center" />
           <ChunkLoadErrorHandler />
         </Providers>
       </body>

@@ -12,7 +12,10 @@ export default async function DemandesPage() {
 
   let requests: any[] = [];
   try {
-    requests = await prisma.testDriveRequest.findMany({ orderBy: { createdAt: 'desc' } });
+    requests = await prisma.testDriveRequest.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { notes: { orderBy: { createdAt: 'asc' } } },
+    });
   } catch {}
 
   return <DemandesContent requests={JSON.parse(JSON.stringify(requests ?? []))} />;

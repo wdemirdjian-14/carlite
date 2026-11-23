@@ -238,7 +238,26 @@ model TestDriveRequest {
   vehicleName String?
   message     String?
   type        String   @default("test_drive")
-  status      String   @default("pending")
+  status      String   @default("pending") // pending | in_progress | treated | archived
+  archivedAt  DateTime?
+  archivedBy  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  notes       RequestNote[]
+}
+
+// Journal d'une demande client : notes de suivi saisies par l'équipe + changements de statut.
+// Les entrées ne sont jamais modifiées ni supprimées (traçabilité).
+model RequestNote {
+  id          String           @id @default(cuid())
+  requestId   String
+  request     TestDriveRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  kind        String           @default("note") // note | status
+  content     String
+  authorId    String?
+  authorName  String
+  authorEmail String
+  createdAt   DateTime         @default(now())
+
+  @@index([requestId, createdAt])
 }
