@@ -22,11 +22,13 @@ export async function POST(request: Request) {
       ? cleanSlug(slug.trim())
       : `${cleanSlug(name.trim(), 70) || 'produit'}-${Date.now().toString(36)}`;
     const accessory = await prisma.accessory.create({
+      omit: { purchasePrice: false },
       data: {
         name: name?.trim(),
         slug: finalSlug,
         description: (description?.trim() || name.trim()),
         price: parseFloat(price) || 0,
+        purchasePrice: parseFloat(body?.purchasePrice) > 0 ? parseFloat(body.purchasePrice) : null,
         category: category ?? 'Général',
         imageUrl: imageUrl ?? '/images/placeholder.jpg',
         gallery: Array.isArray(gallery) ? gallery : [],

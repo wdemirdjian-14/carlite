@@ -20,8 +20,14 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       body.slug = cleanSlug(body.slug) || cleanSlug(body.name ?? '') || undefined;
       if (!body.slug) delete body.slug;
     }
+    // Prix d'achat : 0 ou vide = non renseigné
+    if ('purchasePrice' in body) {
+      const v = parseFloat(body.purchasePrice);
+      body.purchasePrice = Number.isFinite(v) && v > 0 ? v : null;
+    }
     const updated = await prisma.accessory.update({
       where: { id: params?.id },
+      omit: { purchasePrice: false },
       data: body,
     });
     return NextResponse.json(updated);

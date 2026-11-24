@@ -139,6 +139,7 @@ model Accessory {
   slug        String  @unique
   description String
   price       Float
+  purchasePrice Float?   // prix d'achat HT — privé, jamais envoyé sur le site public
   imageUrl    String
   category    String
   gallery     String[]
@@ -260,4 +261,19 @@ model RequestNote {
   createdAt   DateTime         @default(now())
 
   @@index([requestId, createdAt])
+}
+
+// Historique des imports de listing produits (quantités, prix d'achat, prix de vente).
+// `changes` conserve les valeurs avant/après de chaque ligne modifiée : permet l'annulation.
+model ProductImport {
+  id          String    @id @default(cuid())
+  fileName    String
+  authorName  String
+  authorEmail String
+  rowsRead    Int       @default(0)
+  rowsChanged Int       @default(0)
+  changes     Json
+  undoneAt    DateTime?
+  undoneBy    String?
+  createdAt   DateTime  @default(now())
 }

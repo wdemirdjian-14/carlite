@@ -16,7 +16,7 @@ export default async function AdminAccessoiresPage() {
   let usedVehicles: any[] = [];
   try {
     [accessories, categories, vehicles, usedVehicles] = await Promise.all([
-      prisma.accessory.findMany({ orderBy: { category: 'asc' } }),
+      prisma.accessory.findMany({ orderBy: { category: 'asc' }, omit: { purchasePrice: false } }),
       prisma.partCategory.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }] }),
       prisma.vehicle.findMany({ orderBy: { name: 'asc' }, select: { id: true, name: true } }),
       prisma.usedVehicle.findMany({ orderBy: { name: 'asc' }, select: { id: true, name: true } }),

@@ -22,7 +22,8 @@ export function AdminAccessories({ accessories, categories = [], vehicles = [], 
     { key: 'name', label: 'Nom', type: 'text' as const, half: true, required: true },
     { key: 'slug', label: 'Slug (URL)', type: 'text' as const, half: true, required: true },
     { key: 'description', label: 'Description', type: 'textarea' as const, required: true },
-    { key: 'price', label: 'Prix (€)', type: 'number' as const, half: true, required: true },
+    { key: 'price', label: 'Prix de vente HT (€) — 0 = sur devis', type: 'number' as const, half: true, required: true },
+    { key: 'purchasePrice', label: "Prix d'achat HT (€) — privé", type: 'number' as const, half: true },
     categoryOptions.length > 0
       ? { key: 'category', label: 'Catégorie', type: 'select' as const, half: true, options: categoryOptions }
       : { key: 'category', label: 'Catégorie', type: 'text' as const, half: true, placeholder: 'Créez des catégories dans « Catégories de pièces »' },
@@ -136,9 +137,14 @@ export function AdminAccessories({ accessories, categories = [], vehicles = [], 
             <p className="text-sm text-muted-foreground">{items.length} accessoire(s)</p>
           </div>
         </div>
+        <div className="flex gap-2">
+        <Link href="/admin/import-export" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border text-sm font-medium hover:bg-muted transition-colors">
+          Import / export
+        </Link>
         <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors shadow-md">
           <Plus className="h-4 w-4" /> Nouvel accessoire
         </button>
+        </div>
       </div>
 
       {/* Toolbar */}
